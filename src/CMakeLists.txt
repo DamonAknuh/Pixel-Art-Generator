@@ -21,3 +21,31 @@
 # SOFTWARE.                                                                              #
 #                                                                                        #
 ##########################################################################################
+cmake_minimum_required(VERSION 3.13.2.0 FATAL_ERROR)
+
+# Static Library
+add_library(LIB STATIC mylib.cpp )
+
+target_include_directories(
+    LIB
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}
+    )
+
+# main_sw Executable
+add_executable(main_sw main_sw.cpp)
+target_include_directories(
+    main_sw
+    PRIVATE
+        ${PROJECT_BINARY_DIR}
+    )
+
+# link library
+target_link_libraries(main_sw LIB)
+
+# Install Binary
+install(TARGETS main_sw DESTINATION Pixel-Art-Generator/build)
+
+#Install Libs
+install(TARGETS LIB DESTINATION Pixel-Art-Generator/lib)
+

@@ -25,14 +25,39 @@
 # set minimum version of cmake
 cmake_minimum_required(VERSION 3.13.2.0 FATAL_ERROR)
 
-# project name and language
-project(PIXEL-ART-GENERATOR LANGUAGES C CXX ASM)
-
-#toggle test
-set(TEST OFF)
-
-if (TEST)
-add_subdirectory(tests)
+if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+  message(FATAL_ERROR
+    "Please clean your source tree and try again -- In-source builds are not allowed. ")
 endif()
 
-add_subdirectory(source)
+# Set Project
+project(PIXEL-ART-GENERATOR VERSION 0.0.0.1
+                  DESCRIPTION "Pixel Art Generator for .bmp and .jpeg image formats"
+                  LANGUAGES C CXX ASM
+)
+
+# Compiler setting and Messages
+message(STATUS "~~~~~~~~| Compiler Information |~~~~~~~~")
+message(STATUS "Operating System: " "${CMAKE_SYSTEM}"            )
+message(STATUS "Compiler loaded : " "${CMAKE_C_COMPILER_LOADED}" )
+message(STATUS "Compiler type   : " "${CMAKE_C_COMPILER_ID}"     )
+message(STATUS "I am building   : " "${CMAKE_PROJECT_NAME}"      )
+message(STATUS "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+include(GNUInstallDirs)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -Wall -Wno-unknown-pragmas -Wno-sign-compare -Woverloaded-virtual -Wwrite-strings -Wno-unused")
+    set(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g3")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+    set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
+
+# Add Subdirectories
+add_subdirectory(src)
+add_subdirectory(tests)
+add_subdirectory(include)
+
+endif()
+
+

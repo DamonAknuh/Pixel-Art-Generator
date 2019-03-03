@@ -22,42 +22,68 @@
 #                                                                                        #
 ##########################################################################################
 
-# set minimum version of cmake
-cmake_minimum_required(VERSION 3.13.2.0 FATAL_ERROR)
+TARGET_EXEC ?= PAG.elf
+TEST_TARGET_EXEC ?= TESTPAG.elf
 
-if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
-  message(FATAL_ERROR
-    "Please clean your source tree and try again -- In-source builds are not allowed. ")
-endif()
+# Set Compilers to use
+CC  ?= gcc
+CXX ?= g++
+DEBUG ?= -DDEBUG=0 # make build/pixel.elf
 
-# Set Project
-project(PIXEL-ART-GENERATOR VERSION 0.0.0.1
-        DESCRIPTION "Pixel Art Generator for .bmp and .jpeg image formats"
-        LANGUAGES  CXX
-        )
+# Set paths
+SRC_DIRS = ./src
+BUILD_DIR = ./build
 
-# Compiler setting and Messages
-message(STATUS "~~~~~~~~| Compiler Information |~~~~~~~~")
-message(STATUS "Operating System: " "${CMAKE_SYSTEM}"            )
-message(STATUS "Compiler loaded : " "${CMAKE_C_COMPILER_LOADED}" )
-message(STATUS "Compiler type   : " "${CMAKE_C_COMPILER_ID}"     )
-message(STATUS "I am building   : " "${CMAKE_PROJECT_NAME}"      )
-message(STATUS "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+# Find and set sources
+C_SRC_EXT = c
+CXX_SRC_EXT = cpp
 
-include(GNUInstallDirs)
+SRCS := $(shell find $(SRC_DIRS) -name *.$(CXX_SRC_EXT) -or -name *.$(C_SRC_EXT) -or -name *.s)
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+DEPS  = $(OBJECTS:.o=.d)
 
-if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
-    set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -Wall -Wno-unknown-pragmas -Wno-sign-compare -Woverloaded-virtual -Wwrite-strings -Wno-unused")
-    set(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g3")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-    set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-endif()
+# Find Include Directories
+INC_DIRS := $(shell find $(SRC_DIRS) -type d)
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-# Add Subdirectories
-add_subdirectory(src)
-add_subdirectory(tests)
-add_subdirectory(include)
+CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
 
-endif()
+# Set Various Flags
 
+DEFINES = -D=
+
+# Compile FlagCFLAGSs and settings
+C_FLAGS   = -std=c11 -Wall -Wextra -g 
+CXX_FLAGS = -std=c++11 -Wall -Wextra -g
+
+
+$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+
+# COMPILATION
+# assembly
+$(BUILD_DIR)/%.s.o: %.s
+	$(MKDIR_P) $(dir $@)
+	$(AS) $(ASFLAGS) -c $< -o $@
+
+# c source
+$(BUILD_DIR)/%.c.o: %.c
+	$(MKDIR_P) $(dir $@)
+	$(CC) $(CPPFLAGS) $(C_FLAGS) -c $< -o $@
+
+# c++ source
+$(BUILD_DIR)/%.cpp.o: %.cpp
+	$(MKDIR_P) $(dir $@)
+	$(CXX) $(CPPFLAGS) $(CXX_FLAGS) -c $< -o $@
+
+
+
+.PHONY: clean
+
+clean:
+	$(RM) -r $(BUILD_DIR)
+
+-include $(DEPS)
+
+MKDIR_P ?= mkdir -p
 

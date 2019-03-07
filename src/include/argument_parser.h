@@ -20,29 +20,10 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-// project related includes.
-#include "project.h"
-#include "argument_parser.h"
+#ifndef __ARGUMENT_PARSER_H
+#define __ARGUMENT_PARSER_H
 
-// standard library includes. 
-#include <stdio.h>
-#include <stdint.h>
-#include <string.h>
-#include <assert.h>
+void ParseArguments(int argc, char const *argv[]);
 
-sysInfo_t sysInfo;
+#endif // __ARGUMENT_PARSER_H
 
-
-int main(int argc, char const *argv[])
-{
-    printf(HORIZONTAL_RULE);
-    printf("Welcome to the Pixel-Art-Generator!\n");
-    printf(HORIZONTAL_RULE);
-
-    // CHECK ALL ARGUMENTS AND SET SYS VARIABLES
-    ParseArguments(argc, argv);
-
-    // MAIN SOFTWARE ENTRY
-
-    return 0;
-}

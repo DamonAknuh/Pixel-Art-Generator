@@ -22,15 +22,27 @@
 
 #ifndef __PROJECT_H
 #define __PROJECT_H
+#include <stdbool.h>
 
+#define SUPPRESS_UNUSED(expr) do { (void)(expr); } while (0)
 #include "bmp_defines.h"
 #include "jpeg_defines.h"
 
-
-
-
-
-
+#define HORIZONTAL_RULE "_____________________________________\n"
+#define MAX_FILE_LENGTH 30
+#define PATH_SIZE 11
+#define PATH_TO_IMAGES "./images/"
+#define DEFAULT_INPUT_FILE "in_default.bmp"
+#define DEFAULT_OUTPUT_FILE "out_default.bmp"
+#define BMP_FILE 0
+#define JPEG_FILE 1
+typedef struct 
+{
+    bool inputMode; //< either BMP_FILE or JPEG_FILE
+    bool outputMode; //< either BMP_FILE or JPEG_FILE
+    char inputFileName[MAX_FILE_LENGTH+PATH_SIZE];
+    char outputFileName[MAX_FILE_LENGTH+PATH_SIZE];
+} sysInfo_t;
 
 
 #endif // __PROJECT_H

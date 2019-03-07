@@ -53,8 +53,8 @@ CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
 DEFINES = -D=
 
 # Compile FlagCFLAGSs and settings
-C_FLAGS   = -std=c11 -Wall -Wextra -g 
-CXX_FLAGS = -std=c++11 -Wall -Wextra -g
+C_FLAGS   = -std=c11  -Wall -Wextra -Wno-unused-parameter -g 
+CXX_FLAGS = -std=c++11 -Wall -Wextra -Wno-unused-parameter -g
 
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)

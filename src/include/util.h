@@ -20,54 +20,15 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-// project related includes.
+
+#ifndef __UTIL_H
+#define __UTIL_H
 #include "project.h"
-#include "argument_parser.h"
-#include "bmp_defines.h"
-#include "jpeg_defines.h"
-
-// standard library includes. 
-#include <stdio.h>
-#include <string.h>
-
-sysInfo_t sysInfo;
 
 
-int main(int argc, char const *argv[])
-{
-    printf(HORIZONTAL_RULE);
-    printf("Welcome to the Pixel-Art-Generator!\n");
-    printf(HORIZONTAL_RULE);
+uint32_t Byte4_to_int(const char DATA[4]);
+uint32_t Byte2_to_int(const char DATA[2]);
+uint32_t Byte_to_int(const unsigned char DATA);
 
-    // CHECK ALL ARGUMENTS AND SET SYS VARIABLES
-    Parse_Arguments(argc, argv);
 
-    // Read and parse files
-    switch(sysInfo.inputMode)
-    {
-        case 0:
-            bmp_parse();
-            break;
-
-        case 1:
-            jpeg_parse(); // @todo: implement jpeg portion of project. 
-            break;
-
-    }
-
-    // Output file information into file. 
-    switch(sysInfo.outputMode)
-    {
-        case 0:
-
-            break;
-
-        case 1:
-
-            break;
-    }
-
-    // MAIN SOFTWARE ENTRY
-
-    return 0;
-}
+#endif // __UTIL_H

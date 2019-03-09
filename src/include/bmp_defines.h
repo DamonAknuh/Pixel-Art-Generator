@@ -23,13 +23,16 @@
 #ifndef __BMP_DEFINES_H
 #define __BMP_DEFINES_H
 
+#include <stdint.h>
 
+typedef struct
+{
+    uint8_t red_pixel;
+    uint8_t green_pixel;
+    uint8_t blue_pixel;
+    uint8_t misc_info;
+}pixel_t;
 
-
-
-
-
-
-
+void bmp_parse();
 
 #endif // __BMP_DEFINES_H

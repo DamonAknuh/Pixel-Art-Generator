@@ -19,5 +19,14 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE           
     SOFTWARE.                                                                               
 **************************************************************************************************/
-
+#include "project.h"
+#include <assert.h>
 #include "jpeg_defines.h"
+
+
+void jpeg_parse(void)
+{
+    // @todo: dhunka implement jpeg file parser.
+    assert(0);
+}
+

@@ -23,7 +23,7 @@
 #ifndef __ARGUMENT_PARSER_H
 #define __ARGUMENT_PARSER_H
 
-void ParseArguments(int argc, char const *argv[]);
+void Parse_Arguments(int argc, char const *argv[]);
 
 #endif // __ARGUMENT_PARSER_H
 

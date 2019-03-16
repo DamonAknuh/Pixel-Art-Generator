@@ -25,10 +25,51 @@
 #define __UTIL_H
 #include "project.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif //__cplusplus
 
-uint32_t Byte4_to_int(const char DATA[4]);
-uint32_t Byte2_to_int(const char DATA[2]);
-uint32_t Byte_to_int(const unsigned char DATA);
+/**
+ * 4 Byte (1 dword) util function returns uin32_t data byte. 
+ * NOTE: 32 bits.d 
+ */
+static inline uint32_t Byte4_to_int(const char DATA[4])
+{
+    uint32_t result = 0;
+    unsigned char *temp = (unsigned char*)(&DATA[0]);
+    result += temp[3];
+    result = (result << 8) + temp[2];
+    result = (result << 8) + temp[1];
+    result = (result << 8) + temp[0];
+    return result;
+}
 
+/**
+ * 2 Byte util function returns uin32_t data byte. 
+ * NOTE: 16 bits. 
+ */
+static inline uint32_t Byte2_to_int(const char DATA[2])
+{
+    uint32_t result = 0;
+    unsigned char *temp = (unsigned char*)(&DATA[0]);
+    result += temp[1];
+    result = (result << 8) + temp[0];
+    return result;
+}
+
+/**
+ * Byte util function returns uin32_t data byte. 
+ * NOTE: 8 bits. 
+ */
+static inline uint32_t Byte_to_int(const unsigned char DATA)
+{
+    uint32_t result = 0;
+    result += DATA;
+    return result;
+}
+
+#ifdef __cplusplus
+}
+#endif //__cplusplus
 
 #endif // __UTIL_H

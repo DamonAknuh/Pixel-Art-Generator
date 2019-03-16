@@ -23,8 +23,8 @@
 // project related includes.
 #include "project.h"
 #include "argument_parser.h"
-#include "bmp_defines.h"
-#include "jpeg_defines.h"
+#include "bmp_defines.hpp"
+#include "jpeg_defines.hpp"
 
 // standard library includes. 
 #include <stdio.h>
@@ -32,7 +32,11 @@
 
 sysInfo_t sysInfo;
 
-
+/**
+ * Main software entry point. This function is used only to parse arguments, 
+ * and as mini kernel. 
+ * 
+ */
 int main(int argc, char const *argv[])
 {
     printf(HORIZONTAL_RULE);

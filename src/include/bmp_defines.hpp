@@ -20,10 +20,70 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
+#ifndef __BMP_DEFINES_H
+#define __BMP_DEFINES_H
+
+// Might need to wrap this in cpp defines. 
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <stdint.h>
+
 #include "project.h"
-#include "bmp_defines.h"
 
-void bmp_parse()
+/**
+ * PLACE HOLDER FOR CLASS INFORMATION
+ * 
+ * @inheritance: base class; 
+ * @TODO: aknuh add struct infromation
+ */
+class bmpFile_c 
 {
+    public:
+    bmpFile_c();
 
-}
+    private:
+
+    bmpHeaderData_t bmpHeaderData;
+
+};
+
+/**
+ * PLACE HOLDER FOR CLASS INFORMATION
+ * 
+ * @inheritance: private from bmpFile_c
+ * @TODO: aknuh add struct infromation
+ */
+class bmpFileParser_c : private bmpFile_c
+{
+    public:
+    bmpFileParser_c();
+};
+
+/**
+ * PLACE HOLDER FOR TYPEDEF INFORMATION
+ * 
+ * @TODO: aknuh add struct infromation
+ * @TODO: aknuh change to uint32_t types. 
+ */
+typedef struct {
+  unsigned int ROW_SIZE; // Row size including padding.
+  int ARRAY_SIZE; // TOTAL pixel array size
+  int DIFFERENCE;
+  unsigned int BITS_PER_PIX; //BITS PER PIXEL IN THE IMAGE eg 24,32
+  unsigned int FILE_SIZE; // Image file size
+  unsigned int DATA_START; // start of Pixel DATA
+  unsigned int IMG_WIDTH; // Image pixel width
+  unsigned int IMG_HEIGHT; //image pixel height
+  unsigned int NUM_VALUES; // number of values each pixel has.
+} bmpHeaderData_t;
+
+/**
+ * PLACE HOLDER FOR FUNCTION INFORMATION
+ * 
+ * @TODO: aknuh add struct infromation
+ */
+void bmp_parse();
+
+
+#endif // __BMP_DEFINES_H

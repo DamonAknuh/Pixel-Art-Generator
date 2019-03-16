@@ -19,14 +19,21 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE           
     SOFTWARE.                                                                               
 **************************************************************************************************/
+
 #include "project.h"
-#include <assert.h>
-#include "jpeg_defines.h"
+#include "bmp_defines.hpp"
 
+#include <stdio.h>
 
-void jpeg_parse(void)
+/**
+ * PLACE HOLDER FOR FUNCTION INFORMATION
+ * 
+ * @todo: aknuh add struct infromation
+ */
+void bmp_parse()
 {
-    // @todo: dhunka implement jpeg file parser.
-    assert(0);
-}
+    FILE* fp = NULL;
+    fp = fopen(sysInfo.inputFileName, "r");
 
+    fclose(fp);
+}

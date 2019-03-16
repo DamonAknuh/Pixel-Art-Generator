@@ -23,7 +23,18 @@
 #ifndef __ARGUMENT_PARSER_H
 #define __ARGUMENT_PARSER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif //__cplusplus
+
+/**
+ * Parses command line entry arguments. 
+ */
 void Parse_Arguments(int argc, char const *argv[]);
+
+#ifdef __cplusplus
+}
+#endif //__cplusplus
 
 #endif // __ARGUMENT_PARSER_H
 

@@ -19,17 +19,17 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE           
     SOFTWARE.                                                                               
 **************************************************************************************************/
+#include "project.h"
+#include "jpeg_defines.hpp"
 
-#ifndef __JPEG_DEFINES_H
-#define __JPEG_DEFINES_H
+/**
+ * PLACE HOLDER FOR FUNCTION INFORMATION
+ * 
+ * @todo: aknuh add struct infromation
+ */
+void jpeg_parse(void)
+{
+    // @todo: dhunka implement jpeg file parser.
+    assert(0);
+}
 
-
-
-void jpeg_parse();
-
-
-
-
-
-
-#endif // __JPEG_DEFINES_H

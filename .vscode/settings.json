@@ -2,5 +2,6 @@
     "C_Cpp.dimInactiveRegions": false,
     "files.associations": {
         "jpeg_defines.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
 }

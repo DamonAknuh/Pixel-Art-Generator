@@ -26,10 +26,9 @@
 #include <string.h>
 #include <stdbool.h>
 
-
-extern sysInfo_t sysInfo;
-#define UNUSED(expr) do { (void)(expr); } while (0)
-
+/**
+ * Check file extension to set file mode. 
+ */
 bool checkFileMode(char FileName[MAX_FILE_LENGTH])
 {
     char * ext;
@@ -52,6 +51,12 @@ bool checkFileMode(char FileName[MAX_FILE_LENGTH])
     return mode;
 }
 
+/**
+ * Verify file attributes and parameters.
+ * 
+ * CHECK: file present
+ * CHECK: file extensions. 
+ */
 void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
 {
     FILE *fp = NULL;
@@ -96,7 +101,9 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
     }
 }
 
-
+/**
+ * Parse arguments main implementation entry.  
+ */
 void Parse_Arguments(int argc, char const *argv[])
 {
     char inFilePath[MAX_FILE_LENGTH] = PATH_TO_IMAGES;

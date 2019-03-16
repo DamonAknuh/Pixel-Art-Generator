@@ -22,14 +22,18 @@
 
 #ifndef __PROJECT_H
 #define __PROJECT_H
+
 #include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "bmp_defines.h"
-#include "jpeg_defines.h"
+#include "bmp_defines.hpp"
+#include "jpeg_defines.hpp"
+
+#ifdef __cplusplus
+extern "C" {
+#endif //__cplusplus
 
 // Definitions
-#define SUPPRESS_UNUSED(expr) do { (void)(expr); } while (0)
 
 #define HORIZONTAL_RULE "_____________________________________\n"
 #define MAX_FILE_LENGTH 30
@@ -43,13 +47,34 @@
 #define JPEG_FILE 1
 
 // typedef and structures. 
+
+/**
+ * This is the structure to contain pixel information. 
+ */
+typedef struct
+{
+    uint8_t red_pixel;      // to store red pixel intensity
+    uint8_t green_pixel;    // to store green pixel intensity
+    uint8_t blue_pixel;     // to store blue pixel intensity
+    uint8_t misc_info;      // to store misc. pixel infromation
+}pixel_t;
+
+/**
+ * This structure contains system information used for global 
+ * project management. 
+ */
 typedef struct 
 {
-    bool inputMode; //< either BMP_FILE or JPEG_FILE
-    bool outputMode; //< either BMP_FILE or JPEG_FILE
-    char inputFileName[MAX_FILE_LENGTH+PATH_SIZE];
+    bool inputMode;             //< either BMP_FILE or JPEG_FILE
+    bool outputMode;            //< either BMP_FILE or JPEG_FILE
+    char inputFileName[MAX_FILE_LENGTH+PATH_SIZE]; 
     char outputFileName[MAX_FILE_LENGTH+PATH_SIZE];
 } sysInfo_t;
+// extern this system variable for global usage. 
+extern sysInfo_t sysInfo;
 
+#ifdef __cplusplus
+}
+#endif //__cplusplus
 
 #endif // __PROJECT_H

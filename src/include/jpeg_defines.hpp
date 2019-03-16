@@ -20,19 +20,28 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-#ifndef __BMP_DEFINES_H
-#define __BMP_DEFINES_H
+#ifndef __JPEG_DEFINES_H
+#define __JPEG_DEFINES_H
 
-#include <stdint.h>
+#include "project.h"
 
-typedef struct
-{
-    uint8_t red_pixel;
-    uint8_t green_pixel;
-    uint8_t blue_pixel;
-    uint8_t misc_info;
-}pixel_t;
 
-void bmp_parse();
+/**
+ * PLACE HOLDER FOR TYPEDEF INFORMATION
+ * 
+ * @todo: aknuh add struct infromation
+ * @todo: aknuh change to stdints.
+ */
+typedef struct {
+    uint32_t PLACEHOLDER; 
+} jpegHeaderData_t;
 
-#endif // __BMP_DEFINES_H
+/**
+ * PLACE HOLDER FOR FUNCTION INFORMATION
+ * 
+ * @todo: aknuh add struct infromation
+ */
+void jpeg_parse();
+
+
+#endif // __JPEG_DEFINES_H

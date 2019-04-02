@@ -25,8 +25,7 @@
 
 // Might need to wrap this in cpp defines.
  #ifdef __cplusplus 
-
-#include "bmp_defines.h"
+ #include "bmp_defines.h"
 
 /**
  * PLACE HOLDER FOR CLASS INFORMATION
@@ -68,9 +67,6 @@ class bmpFileParser_c : private bmpFile_c
     void ComputePixelArt(); ///< Manipulates the bmp file into pixel Art.
 
 };
-
-
-
 
  #endif // __cplusplus
 #endif // __BMP_DRIVER_H

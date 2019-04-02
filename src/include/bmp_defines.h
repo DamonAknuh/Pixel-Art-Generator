@@ -30,6 +30,10 @@
 extern "C" {
 #endif //__cplusplus
 
+/*************************************************************************************************/
+/*                       BMP TYPEDEFS & STRUCTURES                                               */
+/*************************************************************************************************/
+
 /**
  * PLACE HOLDER FOR TYPEDEF INFORMATION
  * 
@@ -48,8 +52,9 @@ typedef struct {
     uint32_t pixelBits;    //< Number of values each pixel has.
 } bmpHeaderData_t;
 
-
-// FUNCTION DECLARATIONS
+/*************************************************************************************************/
+/*                                   BMP FUNCTIONS                                               */
+/*************************************************************************************************/
 
 /**
  * Parses the BMP file information, and converts 

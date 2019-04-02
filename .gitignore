@@ -3,12 +3,9 @@
 #               file Path Gitignores                    #
 #########################################################
 
-
 /build*
 /.vscode*
-
-
-
+/.vscode/*
 
 #########################################################
 #               File Gitignores                         #
@@ -66,5 +63,3 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
-.vscode/settings.json

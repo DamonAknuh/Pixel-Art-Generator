@@ -65,18 +65,16 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 $(BUILD_DIR)/%.s.o: %.s
 	$(MKDIR_P) $(dir $@)
 	$(AS) $(ASFLAGS) -c $< -o $@
-
+	
 # c source
 $(BUILD_DIR)/%.c.o: %.c
 	$(MKDIR_P) $(dir $@)
-	$(CC) $(CPPFLAGS) $(C_FLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) $(C_FLAGS) -c $< -o $@ -lstdc++
 
 # c++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
-	$(CXX) $(CPPFLAGS) $(CXX_FLAGS) -c $< -o $@
-
-
+	$(CXX) $(CPPFLAGS) $(CXX_FLAGS) -c $< -o $@ 
 
 .PHONY: clean
 

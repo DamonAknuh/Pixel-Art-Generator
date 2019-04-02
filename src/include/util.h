@@ -31,9 +31,9 @@ extern "C" {
 
 /**
  * 4 Byte (1 dword) util function returns uin32_t data byte. 
- * NOTE: 32 bits.d 
+ * NOTE: 32 bits.
  */
-static inline uint32_t Byte4_to_int(const char DATA[4])
+static inline uint32_t Util_Byte4_to_int(const char DATA[4])
 {
     uint32_t result = 0;
     unsigned char *temp = (unsigned char*)(&DATA[0]);
@@ -48,7 +48,7 @@ static inline uint32_t Byte4_to_int(const char DATA[4])
  * 2 Byte util function returns uin32_t data byte. 
  * NOTE: 16 bits. 
  */
-static inline uint32_t Byte2_to_int(const char DATA[2])
+static inline uint32_t Util_Byte2_to_int(const char DATA[2])
 {
     uint32_t result = 0;
     unsigned char *temp = (unsigned char*)(&DATA[0]);
@@ -61,7 +61,7 @@ static inline uint32_t Byte2_to_int(const char DATA[2])
  * Byte util function returns uin32_t data byte. 
  * NOTE: 8 bits. 
  */
-static inline uint32_t Byte_to_int(const unsigned char DATA)
+static inline uint32_t Util_Byte_to_int(const unsigned char DATA)
 {
     uint32_t result = 0;
     result += DATA;

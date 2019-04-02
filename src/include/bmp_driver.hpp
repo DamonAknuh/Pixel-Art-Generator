@@ -20,58 +20,59 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-// project related includes.
-#include "project.h"
-#include "argument_parser.h"
+#ifndef __BMP_DRIVER_H
+#define __BMP_DRIVER_H
+
+// Might need to wrap this in cpp defines.
+ #ifdef __cplusplus 
+
 #include "bmp_defines.h"
-#include "jpeg_defines.h"
-
-// standard library includes. 
-#include <stdio.h>
-#include <string.h>
-
-sysInfo_t sysInfo;
 
 /**
- * Main software entry point. This function is used only to parse arguments, 
- * and as mini kernel. 
+ * PLACE HOLDER FOR CLASS INFORMATION
  * 
+ * @inheritance: base class; 
+ * @TODO: aknuh add class infromation
  */
-int main(int argc, char const *argv[])
+class bmpFile_c 
 {
-    printf(HORIZONTAL_RULE);
-    printf("Welcome to the Pixel-Art-Generator!\n");
-    printf(HORIZONTAL_RULE);
-
-    // CHECK ALL ARGUMENTS AND SET SYS VARIABLES
-    Parse_Arguments(argc, argv);
-
-    // Read and parse files
-    switch(sysInfo.inputMode)
+    public:
+    bmpFile_c();
+    ~bmpFile_c()
     {
-        case 0:
-            bmp_parse();
-            break;
-
-        case 1:
-            jpeg_parse(); // @todo: implement jpeg portion of project. 
-            break;
-
+        fclose(fp);
     }
 
-    // Output file information into file. 
-    switch(sysInfo.outputMode)
-    {
-        case 0:
 
-            break;
+    ///@todo: dhunka 
+    protected:
+    FILE *fp;
+    bmpHeaderData_t bmpHeaderData;
+   
+};
 
-        case 1:
+/**
+ * PLACE HOLDER FOR CLASS INFORMATION
+ * 
+ * @inheritance: private from bmpFile_c
+ * @TODO: aknuh add class infromation
+ */
+class bmpFileParser_c : private bmpFile_c
+{
+    public:
 
-            break;
-    }
+    bmpFileParser_c();      ///< Executes
+     
+    void ParseImageInfo();  ///< Parses image header information
+    void StorePixelArray(); ///< Stores Pixel Array and information
+    void ComputePixelArt(); ///< Manipulates the bmp file into pixel Art.
 
-    // MAIN SOFTWARE ENTRY
+};
 
-    return 0;
-}
+
+
+
+ #endif // __cplusplus
+#endif // __BMP_DRIVER_H
+
+

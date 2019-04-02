@@ -102,14 +102,14 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
 }
 
 /**
- * Parse arguments main implementation entry.  
+ * Parses command line entry arguments. 
  */
 void Parse_Arguments(int argc, char const *argv[])
 {
     char inFilePath[MAX_FILE_LENGTH] = PATH_TO_IMAGES;
     char outFilePath[MAX_FILE_LENGTH] = PATH_TO_IMAGES;
     printf(HORIZONTAL_RULE);
-    printf("Checking Parameters...\n");
+    printf("| Checking Parameters...\n|\n");
 
     switch (argc)
     {
@@ -134,7 +134,7 @@ void Parse_Arguments(int argc, char const *argv[])
             VerifyFiles(inFilePath, outFilePath);
             break;
     }
-    printf("|\nFinished Parameter Check!\n");
+    printf("|\n| Finished Parameter Check!\n|");
     printf(HORIZONTAL_RULE);
 }
 

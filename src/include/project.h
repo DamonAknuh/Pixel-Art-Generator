@@ -26,16 +26,15 @@
 #include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "bmp_defines.hpp"
-#include "jpeg_defines.hpp"
+#include "bmp_defines.h"
+#include "jpeg_defines.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
 
 // Definitions
-
-#define HORIZONTAL_RULE "_____________________________________\n"
+#define HORIZONTAL_RULE "_______________________________________________\n"
 #define MAX_FILE_LENGTH 30
 #define PATH_SIZE 11
 
@@ -46,7 +45,7 @@ extern "C" {
 #define BMP_FILE 0
 #define JPEG_FILE 1
 
-// typedef and structures. 
+// typedefs and structures. 
 
 /**
  * This is the structure to contain pixel information. 
@@ -60,8 +59,7 @@ typedef struct
 }pixel_t;
 
 /**
- * This structure contains system information used for global 
- * project management. 
+ * This structure contains system information used for global project management. 
  */
 typedef struct 
 {

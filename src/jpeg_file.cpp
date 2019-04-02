@@ -20,7 +20,7 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 #include "project.h"
-#include "jpeg_defines.hpp"
+#include "jpeg_defines.h"
 
 /**
  * PLACE HOLDER FOR FUNCTION INFORMATION

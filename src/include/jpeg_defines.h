@@ -20,70 +20,35 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-#ifndef __BMP_DEFINES_H
-#define __BMP_DEFINES_H
-
-// Might need to wrap this in cpp defines. 
-#include <iostream>
-#include <string>
-#include <cstring>
-#include <stdint.h>
+#ifndef __JPEG_DEFINES_H
+#define __JPEG_DEFINES_H
 
 #include "project.h"
 
-/**
- * PLACE HOLDER FOR CLASS INFORMATION
- * 
- * @inheritance: base class; 
- * @TODO: aknuh add struct infromation
- */
-class bmpFile_c 
-{
-    public:
-    bmpFile_c();
-
-    private:
-
-    bmpHeaderData_t bmpHeaderData;
-
-};
-
-/**
- * PLACE HOLDER FOR CLASS INFORMATION
- * 
- * @inheritance: private from bmpFile_c
- * @TODO: aknuh add struct infromation
- */
-class bmpFileParser_c : private bmpFile_c
-{
-    public:
-    bmpFileParser_c();
-};
+#ifdef __cplusplus
+extern "C" {
+#endif //__cplusplus
 
 /**
  * PLACE HOLDER FOR TYPEDEF INFORMATION
  * 
- * @TODO: aknuh add struct infromation
- * @TODO: aknuh change to uint32_t types. 
+ * @todo: aknuh add struct infromation
+ * @todo: aknuh change to stdints.
  */
 typedef struct {
-  unsigned int ROW_SIZE; // Row size including padding.
-  int ARRAY_SIZE; // TOTAL pixel array size
-  int DIFFERENCE;
-  unsigned int BITS_PER_PIX; //BITS PER PIXEL IN THE IMAGE eg 24,32
-  unsigned int FILE_SIZE; // Image file size
-  unsigned int DATA_START; // start of Pixel DATA
-  unsigned int IMG_WIDTH; // Image pixel width
-  unsigned int IMG_HEIGHT; //image pixel height
-  unsigned int NUM_VALUES; // number of values each pixel has.
-} bmpHeaderData_t;
+    uint32_t PLACEHOLDER; 
+} jpegHeaderData_t;
 
 /**
  * PLACE HOLDER FOR FUNCTION INFORMATION
  * 
- * @TODO: aknuh add struct infromation
+ * @todo: aknuh add struct infromation
  */
-void bmp_parse();
+void jpeg_parse();
 
 
-#endif // __BMP_DEFINES_H
+#ifdef __cplusplus
+}
+#endif //__cplusplus
+
+#endif // __JPEG_DEFINES_H

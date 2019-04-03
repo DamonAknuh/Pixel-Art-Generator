@@ -24,10 +24,10 @@
 #include "bmp_defines.h"
 #include "util.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <fstream>
-#include <string.h>
-#include <stdbool.h>
+#include <cstring>
+#include <cstdbool>
 #include "bmp_driver.hpp"
 
 bmpFile_c::bmpFile_c()
@@ -55,25 +55,25 @@ void bmpFileParser_c::ParseImageInfo()
     bmpHeaderData.fileSize = tempInt;
 
     // DATA OFFSET
-    bmpHeaderData.dataOffset    = Util_Read_File( fp, 10, 4 );
+    bmpHeaderData.dataOffset    = Util_Read_File(fp, DATAOFFSET, 4);
 
     // IMAGE WIDTH
-    bmpHeaderData.imgWidth      = Util_Read_File( fp, 18, 4 );
+    bmpHeaderData.imgWidth      = Util_Read_File(fp, IMGWIDTH, 4);
 
     // IMAGE HEIGHT
-    bmpHeaderData.imgHeight     = Util_Read_File( fp, 22, 4 );
+    bmpHeaderData.imgHeight     = Util_Read_File(fp, IMGHEIGHT, 4);
     
     // BITS/PIXEL
-    bmpHeaderData.bitsPerPix    = Util_Read_File( fp, 0x1C, 2);
+    bmpHeaderData.bitsPerPix    = Util_Read_File(fp, BITSPERPIXEL, 2);
 
     // COLOUR PLANES
-    bmpHeaderData.colourPlanes  = Util_Read_File( fp, 0x1A, 2);
+    bmpHeaderData.colourPlanes  = Util_Read_File(fp, COLOURPLANES, 2);
 
     // COMPRESSION METHOD
-    bmpHeaderData.compression   = Util_Read_File( fp, 0x1E, 4);
+    bmpHeaderData.compression   = Util_Read_File(fp, COMPRESSION, 4);
     
     // DIB HEADER
-    tempInt = Util_Read_File( fp, 0x0E, 4);
+    tempInt = Util_Read_File(fp, DIBHEADER, 4);
 
     bmpHeaderData.rowSizeBytes = (((bmpHeaderData.bitsPerPix * bmpHeaderData.imgHeight) + 31 ) / 32) *4;
     bmpHeaderData.difference   = bmpHeaderData.rowSizeBytes - (bmpHeaderData.imgWidth * 3);
@@ -92,9 +92,8 @@ void bmpFileParser_c::ParseImageInfo()
     printf("|    INFO: Pixel Row Size:  %d\n", bmpHeaderData.rowSizeBytes);
     printf("|    INFO: Difference:      %d\n", bmpHeaderData.difference);
     printf("|    INFO: Array Size:      %d\n", bmpHeaderData.arraySize);
-    printf("| Finished Parsing File Header!\n|");
+    printf("|\n| Finished Parsing File Header!\n|");
     printf(HORIZONTAL_RULE);
-
 }
 
 /**

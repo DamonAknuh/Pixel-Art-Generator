@@ -19,6 +19,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE           
     SOFTWARE.                                                                               
 **************************************************************************************************/
+
 #include "project.h"
 #include "util.h"
 #include <stdio.h>
@@ -74,11 +75,14 @@ inline uint32_t Util_Byte_to_int(const unsigned char data)
 uint32_t Util_Read_File(FILE* fp, uint32_t loc, uint32_t size)
 {
     char buffer[4] = {0,0,0,0};
+    uint32_t result;
 
     assert(size <= 4);
     
     fseek(fp, loc, 0 );
     fread(buffer, size, size, fp);
-    return Util_Byte4_to_int(buffer);
+
+    result = Util_Byte4_to_int(buffer);
+    return result;
 }
 

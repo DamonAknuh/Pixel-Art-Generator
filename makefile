@@ -26,7 +26,7 @@ TARGET_EXEC ?= PAG.elf
 TEST_TARGET_EXEC ?= TESTPAG.elf
 
 # Set Compilers to use
-CC  ?= g++
+CC  ?= gcc
 CXX ?= g++
 DEBUG ?= -DDEBUG=0 # make build/pixel.elf
 
@@ -49,16 +49,15 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
 
 # Set Various Flags
-
 DEFINES = -D=
 
-# Compile FlagCFLAGSs and settings
+# Compile Flags and settings
 C_FLAGS   = -std=c11  -Wall -Wextra -Wno-unused-parameter -g 
 CXX_FLAGS = -std=c++11 -Wall -Wextra -Wno-unused-parameter -g
 
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS) -lstdc++
 
 # COMPILATION
 # assembly

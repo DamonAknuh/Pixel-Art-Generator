@@ -25,7 +25,6 @@
 
 #include "project.h"
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
@@ -47,6 +46,8 @@ typedef struct {
     uint32_t imgHeight;    //< Image pixel height (Pixels)
     uint32_t rowSizeBytes; //< Row size including padding (Bytes)
     uint32_t arraySize;    //< toal pixel array size (Bytes)
+    uint32_t colourPlanes;  //< TODO FILL
+    uint32_t compression;  //< TODO FILL
     uint32_t difference;  
     uint32_t bitsPerPix;   //< Bits per Pixel in the image eg 24,32
     uint32_t pixelBits;    //< Number of values each pixel has.
@@ -67,8 +68,6 @@ void bmp_parse();
  * Writes the BMP file information of the file image.  
  */
 void bmp_write();
-
-
 
 #ifdef __cplusplus
 }

@@ -23,7 +23,7 @@
 #ifndef __BMP_DRIVER_H
 #define __BMP_DRIVER_H
 
-// Might need to wrap this in cpp defines.
+
  #ifdef __cplusplus 
  #include "bmp_defines.h"
 

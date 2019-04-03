@@ -26,7 +26,7 @@ TARGET_EXEC ?= PAG.elf
 TEST_TARGET_EXEC ?= TESTPAG.elf
 
 # Set Compilers to use
-CC  ?= gcc
+CC  ?= g++
 CXX ?= g++
 DEBUG ?= -DDEBUG=0 # make build/pixel.elf
 
@@ -74,7 +74,7 @@ $(BUILD_DIR)/%.c.o: %.c
 # c++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
-	$(CXX) $(CPPFLAGS) $(CXX_FLAGS) -c $< -o $@ 
+	$(CXX) $(CPPFLAGS) $(CXX_FLAGS) -c $< -o $@ -lstdc++
 
 .PHONY: clean
 

@@ -51,17 +51,17 @@ extern "C" {
  * @TODO: aknuh change to uint32_t types. 
  */
 typedef struct {
-    uint32_t fileSize;     //< Image file size (Bytes)
-    uint32_t dataOffset;   //< Start of Pixel DATA (Byte offset)
-    uint32_t imgWidth;     //< Image pixel width  (Pixels)
-    uint32_t imgHeight;    //< Image pixel height (Pixels)
-    uint32_t rowSizeBytes; //< Row size including padding (Bytes)
-    uint32_t arraySize;    //< toal pixel array size (Bytes)
+    uint32_t fileSize;      //< Image file size (Bytes)
+    uint32_t dataOffset;    //< Start of Pixel DATA (Byte offset)
+    uint32_t imgWidth;      //< Image pixel width  (Pixels)
+    uint32_t imgHeight;     //< Image pixel height (Pixels)
+    uint32_t rowSizeBytes;  //< Row size including padding (Bytes)
+    uint32_t arraySize;     //< toal pixel array size (Bytes)
     uint32_t colourPlanes;  //< TODO FILL
-    uint32_t compression;  //< TODO FILL
+    uint32_t compression;   //< TODO FILL
     uint32_t difference;  
-    uint32_t bitsPerPix;   //< Bits per Pixel in the image eg 24,32
-    uint32_t pixelBits;    //< Number of values each pixel has.
+    uint32_t bitsPerPix;    //< Bits per Pixel in the image eg 24,32
+    uint32_t pixelBits;     //< Number of values each pixel has.
 } bmpHeaderData_t;
 
 /*************************************************************************************************/

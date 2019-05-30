@@ -63,6 +63,9 @@ typedef struct
     uint8_t misc_info;      // to store misc. pixel infromation
 }pixel_t;
 
+// extern this system variable for global usage. 
+extern pixel_t **pixelArray;
+
 /**
  * This structure contains system information used for global project management. 
  */

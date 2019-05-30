@@ -75,18 +75,18 @@ void bmpFileParser_c::ParseImageInfo()
     // DIB HEADER
     tempInt = Util_Read_File(fp, DIBHEADER, 4);
 
-    bmpHeaderData.rowSizeBytes = (((bmpHeaderData.bitsPerPix * bmpHeaderData.imgHeight) + 31 ) / 32) *4;
+    bmpHeaderData.rowSizeBytes = (((bmpHeaderData.bitsPerPix * bmpHeaderData.imgWidth) + 31 ) / 8);
     bmpHeaderData.difference   = bmpHeaderData.rowSizeBytes - (bmpHeaderData.imgWidth * 3);
-    bmpHeaderData.arraySize    = bmpHeaderData.rowSizeBytes * (bmpHeaderData.imgHeight);    
+    bmpHeaderData.arraySize    = bmpHeaderData.rowSizeBytes * abs(bmpHeaderData.imgHeight); //needed as image height can be negative
 
     // PRINT INFO
-    printf("|    INFO: File Size:       %d (Bytes)\n", bmpHeaderData.fileSize);
-    printf("|    INFO: DATA Offset:     %d (Bytes Offset)\n", bmpHeaderData.dataOffset);
-    printf("|    INFO: Image Width:     %d (Pixels)\n", bmpHeaderData.imgWidth);
-    printf("|    INFO: Image Height:    %d (Pixels)\n", bmpHeaderData.imgHeight); 
-    printf("|    INFO: Image Area:      %dx%d (Pixels^2)\n", bmpHeaderData.imgWidth, bmpHeaderData.imgHeight ); 
-    printf("|    INFO: Bits per pixel:  %d (Bits/Pixel)\n", bmpHeaderData.bitsPerPix);        
-    printf("|    INFO: Colour Planes:   %d (Number of Colour Planes)\n", bmpHeaderData.colourPlanes);
+    printf("|    INFO: File Size:       %d (Bytes)\n",          bmpHeaderData.fileSize);
+    printf("|    INFO: DATA Offset:     %d (Bytes Offset)\n",   bmpHeaderData.dataOffset);
+    printf("|    INFO: Image Width:     %d (Pixels)\n",         bmpHeaderData.imgWidth);
+    printf("|    INFO: Image Height:    %d (Pixels)\n",         bmpHeaderData.imgHeight); 
+    printf("|    INFO: Image Area:      %dx%d (Pixels^2)\n",    bmpHeaderData.imgWidth, bmpHeaderData.imgHeight); 
+    printf("|    INFO: Bits per pixel:  %d (Bits/Pixel)\n",     bmpHeaderData.bitsPerPix);        
+    printf("|    INFO: Colour Planes:   %d (# of Colour Planes)\n", bmpHeaderData.colourPlanes);
     printf("|    INFO: Compression:     %d\n", bmpHeaderData.compression );
     printf("|    INFO: DIB Header Size: %d\n", tempInt);
     printf("|    INFO: Pixel Row Size:  %d\n", bmpHeaderData.rowSizeBytes);
@@ -97,13 +97,32 @@ void bmpFileParser_c::ParseImageInfo()
 }
 
 /**
- * PLACE HOLDER FOR FUNCTION INFORMATION
- * 
- * @todo: aknuh add function infromation
+ * Parse bmp pixel data, and store in a global pixel array variable.
  */
 void bmpFileParser_c::StorePixelArray()
 {
-    
+    printf(HORIZONTAL_RULE);
+    printf("| Reading File Pixel Information...\n|\n");
+    uint32_t location = bmpHeaderData.dataOffset;
+    // Allocate memory for the entire pixel array. 
+    pixelArray = (pixel_t**)malloc(bmpHeaderData.arraySize);
+
+    for ( uint32_t i = 1; i <= bmpHeaderData.imgHeight; i++)
+    {
+        for (uint32_t j = 1; j <= bmpHeaderData.imgWidth; j++)
+        {
+            if (ftell(fp) < 0)
+            {
+                break;
+            }
+            pixelArray[i][j].red_pixel   = Util_Read_File(fp, location++, 1);
+            pixelArray[i][j].green_pixel = Util_Read_File(fp, location++, 1);
+            pixelArray[i][j].blue_pixel  = Util_Read_File(fp, location++, 1);
+        }
+        location = location + bmpHeaderData.difference;
+    }
+    printf("|\n| Finished Reading File Pixel Information!\n|");
+    printf(HORIZONTAL_RULE);
 }
 
 /**

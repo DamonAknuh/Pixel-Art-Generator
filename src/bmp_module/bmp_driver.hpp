@@ -26,6 +26,7 @@
 
  #ifdef __cplusplus 
  #include "bmp_defines.h"
+ #include "intf_drv.hpp"
 
 /**
  * PLACE HOLDER FOR CLASS INFORMATION
@@ -45,9 +46,9 @@ class bmpFile_c
 
     ///@todo: dhunka 
     protected:
+
     FILE *fp;
     bmpHeaderData_t bmpHeaderData;
-   
 };
 
 /**
@@ -61,10 +62,13 @@ class bmpFileParser_c : private bmpFile_c
     public:
 
     bmpFileParser_c();      ///< Executes
-     
+    
+    private:
     void ParseImageInfo();  ///< Parses image header information
     void StorePixelArray(); ///< Stores Pixel Array and information
     void ComputePixelArt(); ///< Manipulates the bmp file into pixel Art.
+
+
 
 };
 

@@ -20,68 +20,43 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-#ifndef __BMP_DEFINES_H
-#define __BMP_DEFINES_H
+#ifndef __INTF_DRV_H
+#define __INTF_DRV_H
 
 #include "project.h"
+#include <fstream>
 
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
 
-/*************************************************************************************************/
-/*                            BMP SPECIFIC DEFINTIONS                                                  */
-/*************************************************************************************************/
-#define DATAOFFSET      10
-#define IMGWIDTH        18
-#define IMGHEIGHT       22
-#define BITSPERPIXEL    0x1C
-#define COLOURPLANES    0x1A
-#define COMPRESSION     0x1E
-#define DIBHEADER       0x0E
-
-/*************************************************************************************************/
-/*                       BMP TYPEDEFS & STRUCTURES                                               */
-/*************************************************************************************************/
-
 /**
- * PLACE HOLDER FOR TYPEDEF INFORMATION
+ * PLACE HOLDER FOR CLASS INFORMATION
  * 
- * @TODO: aknuh add struct infromation
- * @TODO: aknuh change to uint32_t types. 
+ * @inheritance: base class interface
+ * @TODO: aknuh add class infromation
  */
-typedef struct {
-    uint32_t fileSize;      //< Image file size (Bytes)
-    uint32_t dataOffset;    //< Start of Pixel DATA (Byte offset)
-    uint32_t imgWidth;      //< Image pixel width  (Pixels)
-    uint32_t imgHeight;     //< Image pixel height (Pixels)
-    uint32_t rowSizeBytes;  //< Row size including padding (Bytes)
-    uint32_t arraySize;     //< toal pixel array size (Bytes)
-    uint32_t colourPlanes;  //< TODO FILL
-    uint32_t compression;   //< TODO FILL
-    uint32_t difference;  
-    uint32_t bitsPerPix;    //< Bits per Pixel in the image eg 24,32
-    uint32_t pixelBits;     //< Number of values each pixel has.
-} bmpHeaderData_t;
+class fileIntf_i
+{
+    public:
+    fileIntf_i();
+    ~fileIntf_i()
+    {
+        fclose(inputFile);
+    }
+    
+    virtual void File_ParseHeaderInfo() =0;
+    virtual void File_ParsePixelData()=0;
+    virtual void File_FilterPixelArray()=0;
+    //virtual void File_WritePixelData();
 
-/*************************************************************************************************/
-/*                                   BMP FUNCTIONS                                               */
-/*************************************************************************************************/
-
-/**
- * Parses the BMP file information, and converts 
- * the written information into useful array structures. 
- * 
- */
-void bmp_parse();
-
-/**
- * Writes the BMP file information of the file image.  
- */
-void bmp_write();
+    protected:
+    FILE *inputFile;
+    FILE *outputFile;
+};
 
 #ifdef __cplusplus
 }
 #endif //__cplusplus
 
-#endif // __BMP_DEFINES_H
+#endif // __INTF_DRV_H

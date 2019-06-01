@@ -30,19 +30,11 @@
 #include <cstdbool>
 #include "bmp_driver.hpp"
 
-bmpFile_c::bmpFile_c()
-{
-    printf("\nStarting Pixel-Art Conversion...\n");
-    fp = fopen(sysInfo.inputFileName, "rb");
-    assert(fp != NULL);
-}
-
 /**
- * PLACE HOLDER FOR FUNCTION INFORMATION
- * 
- * @todo: aknuh add function infromation
+ * This function parses the bmp files header information. The file header is where all 
+ * information about the file properties is stored. 
  */
-void bmpFileParser_c::ParseImageInfo()
+void bmpFileDriver_c::File_ParseHeaderInfo()
 {
     uint32_t tempInt;
 
@@ -50,43 +42,43 @@ void bmpFileParser_c::ParseImageInfo()
     printf("| Reading File Header Information...\n|\n");
 
     // FILE SIZE
-    fseek(fp, 0 , SEEK_END);
-    tempInt = ftell(fp);
+    fseek(inputFile, 0 , SEEK_END);
+    tempInt = ftell(inputFile);
     bmpHeaderData.fileSize = tempInt;
 
     // DATA OFFSET
-    bmpHeaderData.dataOffset    = Util_Read_File(fp, DATAOFFSET, 4);
+    bmpHeaderData.dataOffset    = Util_Read_File(inputFile, DATAOFFSET, 4);
 
     // IMAGE WIDTH
-    bmpHeaderData.imgWidth      = Util_Read_File(fp, IMGWIDTH, 4);
+    bmpHeaderData.imgWidth      = Util_Read_File(inputFile, IMGWIDTH, 4);
 
     // IMAGE HEIGHT
-    bmpHeaderData.imgHeight     = Util_Read_File(fp, IMGHEIGHT, 4);
+    bmpHeaderData.imgHeight     = Util_Read_File(inputFile, IMGHEIGHT, 4);
     
     // BITS/PIXEL
-    bmpHeaderData.bitsPerPix    = Util_Read_File(fp, BITSPERPIXEL, 2);
+    bmpHeaderData.bitsPerPix    = Util_Read_File(inputFile, BITSPERPIXEL, 2);
 
     // COLOUR PLANES
-    bmpHeaderData.colourPlanes  = Util_Read_File(fp, COLOURPLANES, 2);
+    bmpHeaderData.colourPlanes  = Util_Read_File(inputFile, COLOURPLANES, 2);
 
     // COMPRESSION METHOD
-    bmpHeaderData.compression   = Util_Read_File(fp, COMPRESSION, 4);
+    bmpHeaderData.compression   = Util_Read_File(inputFile, COMPRESSION, 4);
     
     // DIB HEADER
-    tempInt = Util_Read_File(fp, DIBHEADER, 4);
+    tempInt = Util_Read_File(inputFile, DIBHEADER, 4);
 
-    bmpHeaderData.rowSizeBytes = (((bmpHeaderData.bitsPerPix * bmpHeaderData.imgHeight) + 31 ) / 32) *4;
+    bmpHeaderData.rowSizeBytes = (((bmpHeaderData.bitsPerPix * bmpHeaderData.imgWidth) + 31 ) / 8);
     bmpHeaderData.difference   = bmpHeaderData.rowSizeBytes - (bmpHeaderData.imgWidth * 3);
-    bmpHeaderData.arraySize    = bmpHeaderData.rowSizeBytes * (bmpHeaderData.imgHeight);    
+    bmpHeaderData.arraySize    = bmpHeaderData.rowSizeBytes * abs(bmpHeaderData.imgHeight); //needed as image height can be negative
 
     // PRINT INFO
-    printf("|    INFO: File Size:       %d (Bytes)\n", bmpHeaderData.fileSize);
-    printf("|    INFO: DATA Offset:     %d (Bytes Offset)\n", bmpHeaderData.dataOffset);
-    printf("|    INFO: Image Width:     %d (Pixels)\n", bmpHeaderData.imgWidth);
-    printf("|    INFO: Image Height:    %d (Pixels)\n", bmpHeaderData.imgHeight); 
-    printf("|    INFO: Image Area:      %dx%d (Pixels^2)\n", bmpHeaderData.imgWidth, bmpHeaderData.imgHeight ); 
-    printf("|    INFO: Bits per pixel:  %d (Bits/Pixel)\n", bmpHeaderData.bitsPerPix);        
-    printf("|    INFO: Colour Planes:   %d (Number of Colour Planes)\n", bmpHeaderData.colourPlanes);
+    printf("|    INFO: File Size:       %d (Bytes)\n",          bmpHeaderData.fileSize);
+    printf("|    INFO: DATA Offset:     %d (Bytes Offset)\n",   bmpHeaderData.dataOffset);
+    printf("|    INFO: Image Width:     %d (Pixels)\n",         bmpHeaderData.imgWidth);
+    printf("|    INFO: Image Height:    %d (Pixels)\n",         bmpHeaderData.imgHeight); 
+    printf("|    INFO: Image Area:      %dx%d (Pixels^2)\n",    bmpHeaderData.imgWidth, bmpHeaderData.imgHeight); 
+    printf("|    INFO: Bits per pixel:  %d (Bits/Pixel)\n",     bmpHeaderData.bitsPerPix);        
+    printf("|    INFO: Colour Planes:   %d (# of Colour Planes)\n", bmpHeaderData.colourPlanes);
     printf("|    INFO: Compression:     %d\n", bmpHeaderData.compression );
     printf("|    INFO: DIB Header Size: %d\n", tempInt);
     printf("|    INFO: Pixel Row Size:  %d\n", bmpHeaderData.rowSizeBytes);
@@ -97,11 +89,41 @@ void bmpFileParser_c::ParseImageInfo()
 }
 
 /**
+ * This function Parses the bmp file pixel data, and stores it all into a global
+ * pixel array variable.
+ */
+void bmpFileDriver_c::File_ParsePixelData()
+{
+    printf(HORIZONTAL_RULE);
+    printf("| Reading File Pixel Information...\n|\n");
+    uint32_t location = bmpHeaderData.dataOffset;
+    // Allocate memory for the entire pixel array. 
+    pixelArray = (pixel_t**)malloc(bmpHeaderData.arraySize);
+
+    for ( uint32_t i = 1; i <= bmpHeaderData.imgHeight; i++)
+    {
+        for (uint32_t j = 1; j <= bmpHeaderData.imgWidth; j++)
+        {
+            if (ftell(inputFile) < 0)
+            {
+                break;
+            }
+            pixelArray[i][j].red_pixel   = Util_Read_File(inputFile, location++, 1);
+            pixelArray[i][j].green_pixel = Util_Read_File(inputFile, location++, 1);
+            pixelArray[i][j].blue_pixel  = Util_Read_File(inputFile, location++, 1);
+        }
+        location = location + bmpHeaderData.difference;
+    }
+    printf("|\n| Finished Reading File Pixel Information!\n|");
+    printf(HORIZONTAL_RULE);
+}
+
+/**
  * PLACE HOLDER FOR FUNCTION INFORMATION
  * 
  * @todo: aknuh add function infromation
  */
-void bmpFileParser_c::StorePixelArray()
+void bmpFileDriver_c::File_FilterPixelArray()
 {
     
 }
@@ -111,21 +133,11 @@ void bmpFileParser_c::StorePixelArray()
  * 
  * @todo: aknuh add function infromation
  */
-void bmpFileParser_c::ComputePixelArt()
+bmpFileDriver_c::bmpFileDriver_c()
 {
-    
-}
-
-/**
- * PLACE HOLDER FOR FUNCTION INFORMATION
- * 
- * @todo: aknuh add function infromation
- */
-bmpFileParser_c::bmpFileParser_c()
-{
-    ParseImageInfo();
-    StorePixelArray();
-    ComputePixelArt();
+    File_ParseHeaderInfo();
+    File_ParsePixelData();
+    File_FilterPixelArray();
 }
 
 /**
@@ -135,7 +147,7 @@ bmpFileParser_c::bmpFileParser_c()
  */
 void bmp_parse()
 {
-    bmpFileParser_c bmpFileParser; 
+    bmpFileDriver_c bmpFileParser; 
 }
 
 /**

@@ -29,7 +29,7 @@
 /**
  * Check file extension to set file mode. 
  */
-bool checkFileMode(char FileName[MAX_FILE_LENGTH])
+bool CheckFileMode(char FileName[MAX_FILE_LENGTH])
 {
     char * ext;
     bool mode;
@@ -70,7 +70,7 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
         printf("|    INFO: Using Input File:  %s\n", inFile);
         strcpy(sysInfo.inputFileName,  inFile);
         printf("| Checking Input Extension\n");
-        mode = checkFileMode(inFile); 
+        mode = CheckFileMode(inFile); 
         printf("|    INFO: Using Input Mode:   %d\n|\n", mode);
         sysInfo.inputMode = mode; 
         fclose(fp );
@@ -89,7 +89,7 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
         printf("|    INFO: Using Output File: %s\n", outFile);
         strcpy(sysInfo.outputFileName, outFile);
         printf("| Checking Output Extension\n");
-        mode = checkFileMode(inFile); 
+        mode = CheckFileMode(inFile); 
         printf("|    INFO: Using Output Mode:   %d\n", mode);
         sysInfo.outputMode = mode; 
         fclose(fp );

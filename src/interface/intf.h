@@ -1,6 +1,6 @@
 /********************************************************************************************                                                                                       
     Copyright (c) 2019 Damon Hunka                                                          
-                                                                                           
+                                                                                            
     Permission is hereby granted, free of charge, to any person obtaining a copy            
     of this software and associated documentation files (the "Software"), to deal           
     in the Software without restriction, including without limitation the rights            
@@ -10,7 +10,7 @@
                                                                                           
     The above copyright notice and this permission notice shall be included in all          
     copies or substantial portions of the Software.                                         
-                                                                                         
+                                                                                          
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR              
     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,                
     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE             
@@ -20,45 +20,36 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-// project related includes.
+#ifndef __INTF_H
+#define __INTF_H
+
 #include "project.h"
-#include "argument_parser.h"
-#include "bmp_defines.h"
-#include "jpeg_defines.h"
-#include "intf.h"          // for intf_* functions
 
-// standard library includes. 
-#include <stdio.h>
-#include <string.h>
+#ifdef __cplusplus
+extern "C" {
+#endif //__cplusplus
 
-// Declaration of global variables
-sysInfo_t sysInfo;
-pixel_t **pixelArray;
+/*************************************************************************************************/
+/*                                   INTERFACE FUNCTIONS                                         */
+/*************************************************************************************************/
 
 /**
- * Main software entry point. This function is used only to parse arguments, 
- * and as mini kernel. 
+ * High level decision for which bmp/jpeg driver to use to parse image 
+ * pixel data. Will then call down into the correct implementation for  
+ * provided file.
  * 
  */
-int main(int argc, char const *argv[])
-{
-    int32_t status;
-    printf(HORIZONTAL_RULE);
-    printf("Welcome to the Pixel-Art-Generator!\n");
-    printf(HORIZONTAL_RULE);
+uint32_t Intf_Parse();
 
-    // CHECK ALL ARGUMENTS AND SET SYS VARIABLES
-    Parse_Arguments(argc, argv);
+/**
+ * This function holds High level logic for which bmp/jpeg driver to 
+ * use to write the new file. 
+ *
+ */
+uint32_t Intf_Write();
 
-    // Read and parse files
-    status = Intf_Parse();
-    assert(status < 0);
-
-    // Output file information into file. 
-    status = Intf_Write();
-    assert(status < 0);    
-
-    // MAIN SOFTWARE ENTRY
-
-    return 0;
+#ifdef __cplusplus
 }
+#endif //__cplusplus
+
+#endif // __INTF_H

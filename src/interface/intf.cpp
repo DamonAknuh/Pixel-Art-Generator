@@ -20,45 +20,61 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-// project related includes.
 #include "project.h"
-#include "argument_parser.h"
-#include "bmp_defines.h"
-#include "jpeg_defines.h"
-#include "intf.h"          // for intf_* functions
+#include "intf.h"
+#include "intf_drv.hpp"
 
-// standard library includes. 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <fstream>
+#include <cstring>
+#include <cstdbool>
 
-// Declaration of global variables
-sysInfo_t sysInfo;
-pixel_t **pixelArray;
+
+fileIntf_i::fileIntf_i()
+{
+    printf("\nStarting Pixel-Art Conversion...\n");
+    inputFile = fopen(sysInfo.inputFileName, "rb");
+    assert(inputFile != NULL);
+}
 
 /**
- * Main software entry point. This function is used only to parse arguments, 
- * and as mini kernel. 
+ * High level decision for which bmp/jpeg driver to use to parse image 
+ * pixel data. Will then call down into the correct implementation for  
+ * provided file.
  * 
  */
-int main(int argc, char const *argv[])
+uint32_t Intf_Parse()
 {
-    int32_t status;
-    printf(HORIZONTAL_RULE);
-    printf("Welcome to the Pixel-Art-Generator!\n");
-    printf(HORIZONTAL_RULE);
+    switch(sysInfo.inputMode)
+    {
+        case 0:
+            bmp_parse();
+            break;
 
-    // CHECK ALL ARGUMENTS AND SET SYS VARIABLES
-    Parse_Arguments(argc, argv);
+        case 1:
+            jpeg_parse(); // @todo: implement jpeg portion of project. 
+            break;
+    }
+    return 1;
+}
 
-    // Read and parse files
-    status = Intf_Parse();
-    assert(status < 0);
+/**
+ * This function holds High level logic for which bmp/jpeg driver to 
+ * use to write the new file. 
+ *
+ * @todo: implement
+ */
+uint32_t Intf_Write()
+{
+    switch(sysInfo.outputMode)
+    {
+        case 0:
 
-    // Output file information into file. 
-    status = Intf_Write();
-    assert(status < 0);    
+            break;
 
-    // MAIN SOFTWARE ENTRY
+        case 1:
 
-    return 0;
+            break;
+    }
+    return 1;
 }

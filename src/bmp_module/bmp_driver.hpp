@@ -31,45 +31,20 @@
 /**
  * PLACE HOLDER FOR CLASS INFORMATION
  * 
- * @inheritance: base class; 
+ * @inheritance: public from fileIntf_i
  * @TODO: aknuh add class infromation
  */
-class bmpFile_c 
+class bmpFileDriver_c : public fileIntf_i
 {
     public:
-    bmpFile_c();
-    ~bmpFile_c()
-    {
-        fclose(fp);
-    }
-
-
-    ///@todo: dhunka 
-    protected:
-
-    FILE *fp;
-    bmpHeaderData_t bmpHeaderData;
-};
-
-/**
- * PLACE HOLDER FOR CLASS INFORMATION
- * 
- * @inheritance: private from bmpFile_c
- * @TODO: aknuh add class infromation
- */
-class bmpFileParser_c : private bmpFile_c
-{
-    public:
-
-    bmpFileParser_c();      ///< Executes
+    bmpFileDriver_c();
+    void File_ParseHeaderInfo();    ///< Parses image header information
+    void File_ParsePixelData();     ///< Stores Pixel Array and information
+    void File_FilterPixelArray();   ///< Manipulates the bmp file into pixel Art.
+    void File_WritePixelData();
     
     private:
-    void ParseImageInfo();  ///< Parses image header information
-    void StorePixelArray(); ///< Stores Pixel Array and information
-    void ComputePixelArt(); ///< Manipulates the bmp file into pixel Art.
-
-
-
+    bmpHeaderData_t bmpHeaderData;
 };
 
  #endif // __cplusplus

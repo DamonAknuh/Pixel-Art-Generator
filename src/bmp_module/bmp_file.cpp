@@ -30,19 +30,11 @@
 #include <cstdbool>
 #include "bmp_driver.hpp"
 
-bmpFile_c::bmpFile_c()
-{
-    printf("\nStarting Pixel-Art Conversion...\n");
-    fp = fopen(sysInfo.inputFileName, "rb");
-    assert(fp != NULL);
-}
-
 /**
- * PLACE HOLDER FOR FUNCTION INFORMATION
- * 
- * @todo: aknuh add function infromation
+ * This function parses the bmp files header information. The file header is where all 
+ * information about the file properties is stored. 
  */
-void bmpFileParser_c::ParseImageInfo()
+void bmpFileDriver_c::File_ParseHeaderInfo()
 {
     uint32_t tempInt;
 
@@ -50,30 +42,30 @@ void bmpFileParser_c::ParseImageInfo()
     printf("| Reading File Header Information...\n|\n");
 
     // FILE SIZE
-    fseek(fp, 0 , SEEK_END);
-    tempInt = ftell(fp);
+    fseek(inputFile, 0 , SEEK_END);
+    tempInt = ftell(inputFile);
     bmpHeaderData.fileSize = tempInt;
 
     // DATA OFFSET
-    bmpHeaderData.dataOffset    = Util_Read_File(fp, DATAOFFSET, 4);
+    bmpHeaderData.dataOffset    = Util_Read_File(inputFile, DATAOFFSET, 4);
 
     // IMAGE WIDTH
-    bmpHeaderData.imgWidth      = Util_Read_File(fp, IMGWIDTH, 4);
+    bmpHeaderData.imgWidth      = Util_Read_File(inputFile, IMGWIDTH, 4);
 
     // IMAGE HEIGHT
-    bmpHeaderData.imgHeight     = Util_Read_File(fp, IMGHEIGHT, 4);
+    bmpHeaderData.imgHeight     = Util_Read_File(inputFile, IMGHEIGHT, 4);
     
     // BITS/PIXEL
-    bmpHeaderData.bitsPerPix    = Util_Read_File(fp, BITSPERPIXEL, 2);
+    bmpHeaderData.bitsPerPix    = Util_Read_File(inputFile, BITSPERPIXEL, 2);
 
     // COLOUR PLANES
-    bmpHeaderData.colourPlanes  = Util_Read_File(fp, COLOURPLANES, 2);
+    bmpHeaderData.colourPlanes  = Util_Read_File(inputFile, COLOURPLANES, 2);
 
     // COMPRESSION METHOD
-    bmpHeaderData.compression   = Util_Read_File(fp, COMPRESSION, 4);
+    bmpHeaderData.compression   = Util_Read_File(inputFile, COMPRESSION, 4);
     
     // DIB HEADER
-    tempInt = Util_Read_File(fp, DIBHEADER, 4);
+    tempInt = Util_Read_File(inputFile, DIBHEADER, 4);
 
     bmpHeaderData.rowSizeBytes = (((bmpHeaderData.bitsPerPix * bmpHeaderData.imgWidth) + 31 ) / 8);
     bmpHeaderData.difference   = bmpHeaderData.rowSizeBytes - (bmpHeaderData.imgWidth * 3);
@@ -97,9 +89,10 @@ void bmpFileParser_c::ParseImageInfo()
 }
 
 /**
- * Parse bmp pixel data, and store in a global pixel array variable.
+ * This function Parses the bmp file pixel data, and stores it all into a global
+ * pixel array variable.
  */
-void bmpFileParser_c::StorePixelArray()
+void bmpFileDriver_c::File_ParsePixelData()
 {
     printf(HORIZONTAL_RULE);
     printf("| Reading File Pixel Information...\n|\n");
@@ -111,13 +104,13 @@ void bmpFileParser_c::StorePixelArray()
     {
         for (uint32_t j = 1; j <= bmpHeaderData.imgWidth; j++)
         {
-            if (ftell(fp) < 0)
+            if (ftell(inputFile) < 0)
             {
                 break;
             }
-            pixelArray[i][j].red_pixel   = Util_Read_File(fp, location++, 1);
-            pixelArray[i][j].green_pixel = Util_Read_File(fp, location++, 1);
-            pixelArray[i][j].blue_pixel  = Util_Read_File(fp, location++, 1);
+            pixelArray[i][j].red_pixel   = Util_Read_File(inputFile, location++, 1);
+            pixelArray[i][j].green_pixel = Util_Read_File(inputFile, location++, 1);
+            pixelArray[i][j].blue_pixel  = Util_Read_File(inputFile, location++, 1);
         }
         location = location + bmpHeaderData.difference;
     }
@@ -130,7 +123,7 @@ void bmpFileParser_c::StorePixelArray()
  * 
  * @todo: aknuh add function infromation
  */
-void bmpFileParser_c::ComputePixelArt()
+void bmpFileDriver_c::File_FilterPixelArray()
 {
     
 }
@@ -140,11 +133,11 @@ void bmpFileParser_c::ComputePixelArt()
  * 
  * @todo: aknuh add function infromation
  */
-bmpFileParser_c::bmpFileParser_c()
+bmpFileDriver_c::bmpFileDriver_c()
 {
-    ParseImageInfo();
-    StorePixelArray();
-    ComputePixelArt();
+    File_ParseHeaderInfo();
+    File_ParsePixelData();
+    File_FilterPixelArray();
 }
 
 /**
@@ -154,7 +147,7 @@ bmpFileParser_c::bmpFileParser_c()
  */
 void bmp_parse()
 {
-    bmpFileParser_c bmpFileParser; 
+    bmpFileDriver_c bmpFileParser; 
 }
 
 /**

@@ -22,13 +22,13 @@
 #                                                                                        #
 ##########################################################################################
 
-TARGET_EXEC ?= PAG.elf
-TEST_TARGET_EXEC ?= TESTPAG.elf
+TARGET_EXEC ?= PAG
+TEST_TARGET_EXEC ?= TESTPAG
 
 # Set Compilers to use
 CC  ?= gcc
 CXX ?= g++
-DEBUG ?= -DDEBUG=0 # make build/pixel.elf
+DEBUG ?= -DDEBUG=0 # make PAG
 
 # Set paths
 SRC_DIRS = ./src
@@ -56,7 +56,7 @@ C_FLAGS   = -std=c11  -Wall -Wextra -Wno-unused-parameter -g
 CXX_FLAGS = -std=c++11 -Wall -Wextra -Wno-unused-parameter -g
 
 
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+$(TARGET_EXEC): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS) -lstdc++
 
 # COMPILATION
@@ -79,8 +79,9 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 clean:
 	$(RM) -r $(BUILD_DIR)
+	$(RM) -r $(TARGET_EXEC).exe
 
 -include $(DEPS)
-
+1
 MKDIR_P ?= mkdir -p
 

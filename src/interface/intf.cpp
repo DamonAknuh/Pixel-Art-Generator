@@ -39,6 +39,38 @@ fileIntf_i::fileIntf_i()
 }
 
 /**
+ * This function will initialize the global pixelArray variable with the correct size.
+ * The size information is gathered from information in the input file header.
+ * 
+ * @requires that the inputfile header data is parsed.
+ */
+void InitializePixelArray()
+{
+    uint32_t len = sysInfo.headerInfo.imgWidth * sizeof(pixel_t*);
+
+    // Allocate memory for pointer array of img width size. 
+    pixelArray = (pixel_t**)malloc(len);
+    if (pixelArray == NULL)
+    {
+        printf("| ERROR! Failed to allocate space for pixel array\n|\n");
+        assert(0);
+    }
+
+    // Iterate over the pointer array and allocate memory for each pointer.
+    for (uint32_t x = 0; x < sysInfo.headerInfo.imgWidth; x++)
+    {
+        pixelArray[x] = (pixel_t*)malloc(sysInfo.headerInfo.imgHeight * sizeof(pixel_t));
+        
+        if (pixelArray[x] == NULL)
+        {
+            printf("| ERROR! Failed to allocate space for pixel array\n|\n");
+            assert(0);
+        }
+    }
+}
+
+
+/**
  * High level decision for which bmp/jpeg driver to use to parse image 
  * pixel data. Will then call down into the correct implementation for  
  * provided file.

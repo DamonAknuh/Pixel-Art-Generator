@@ -22,7 +22,8 @@
 
 #include "project.h"
 #include "bmp_defines.h"
-#include "util.h"
+#include "util.h"           // for file reading functions
+#include "intf.h"           // for InitializePixelArray
 
 #include <cstdio>
 #include <fstream>
@@ -44,46 +45,46 @@ void bmpFileDriver_c::File_ParseHeaderInfo()
     // FILE SIZE
     fseek(inputFile, 0 , SEEK_END);
     tempInt = ftell(inputFile);
-    bmpHeaderData.fileSize = tempInt;
+    sysInfo.headerInfo.fileSize = tempInt;
 
     // DATA OFFSET
-    bmpHeaderData.dataOffset    = Util_Read_File(inputFile, DATAOFFSET, 4);
+    sysInfo.headerInfo.dataOffset   = Util_Read_File(inputFile, DATAOFFSET, 4);
 
     // IMAGE WIDTH
-    bmpHeaderData.imgWidth      = Util_Read_File(inputFile, IMGWIDTH, 4);
-
+    sysInfo.headerInfo.imgWidth     = Util_Read_File(inputFile, IMGWIDTH, 4);
     // IMAGE HEIGHT
-    bmpHeaderData.imgHeight     = Util_Read_File(inputFile, IMGHEIGHT, 4);
+    sysInfo.headerInfo.imgHeight    = Util_Read_File(inputFile, IMGHEIGHT, 4);
     
     // BITS/PIXEL
-    bmpHeaderData.bitsPerPix    = Util_Read_File(inputFile, BITSPERPIXEL, 2);
+    sysInfo.headerInfo.bitsPerPix   = Util_Read_File(inputFile, BITSPERPIXEL, 2);
 
     // COLOUR PLANES
-    bmpHeaderData.colourPlanes  = Util_Read_File(inputFile, COLOURPLANES, 2);
+    sysInfo.headerInfo.colourPlanes = Util_Read_File(inputFile, COLOURPLANES, 2);
 
     // COMPRESSION METHOD
-    bmpHeaderData.compression   = Util_Read_File(inputFile, COMPRESSION, 4);
+    sysInfo.headerInfo.compression  = Util_Read_File(inputFile, COMPRESSION, 4);
     
     // DIB HEADER
     tempInt = Util_Read_File(inputFile, DIBHEADER, 4);
 
-    bmpHeaderData.rowSizeBytes = (((bmpHeaderData.bitsPerPix * bmpHeaderData.imgWidth) + 31 ) / 8);
-    bmpHeaderData.difference   = bmpHeaderData.rowSizeBytes - (bmpHeaderData.imgWidth * 3);
-    bmpHeaderData.arraySize    = bmpHeaderData.rowSizeBytes * abs(bmpHeaderData.imgHeight); //needed as image height can be negative
+    sysInfo.headerInfo.rowSizeBytes   = (((sysInfo.headerInfo.bitsPerPix * sysInfo.headerInfo.imgWidth) + 31 ) / 8);
+    sysInfo.headerInfo.difference     = sysInfo.headerInfo.rowSizeBytes - (sysInfo.headerInfo.imgWidth * 3);
+    sysInfo.headerInfo.arraySizeBytes = sysInfo.headerInfo.imgHeight * sysInfo.headerInfo.imgWidth * sizeof(pixel_t);
+    sysInfo.headerInfo.arrayElements  = sysInfo.headerInfo.imgHeight * sysInfo.headerInfo.imgWidth;
 
     // PRINT INFO
-    printf("|    INFO: File Size:       %d (Bytes)\n",          bmpHeaderData.fileSize);
-    printf("|    INFO: DATA Offset:     %d (Bytes Offset)\n",   bmpHeaderData.dataOffset);
-    printf("|    INFO: Image Width:     %d (Pixels)\n",         bmpHeaderData.imgWidth);
-    printf("|    INFO: Image Height:    %d (Pixels)\n",         bmpHeaderData.imgHeight); 
-    printf("|    INFO: Image Area:      %dx%d (Pixels^2)\n",    bmpHeaderData.imgWidth, bmpHeaderData.imgHeight); 
-    printf("|    INFO: Bits per pixel:  %d (Bits/Pixel)\n",     bmpHeaderData.bitsPerPix);        
-    printf("|    INFO: Colour Planes:   %d (# of Colour Planes)\n", bmpHeaderData.colourPlanes);
-    printf("|    INFO: Compression:     %d\n", bmpHeaderData.compression );
+    printf("|    INFO: File Size:       %d (Bytes)\n",          sysInfo.headerInfo.fileSize);
+    printf("|    INFO: DATA Offset:     %d (Bytes Offset)\n",   sysInfo.headerInfo.dataOffset);
+    printf("|    INFO: Image Width:     %d (Pixels)\n",         sysInfo.headerInfo.imgWidth);
+    printf("|    INFO: Image Height:    %d (Pixels)\n",         sysInfo.headerInfo.imgHeight); 
+    printf("|    INFO: Image Area:      %dx%d (Pixels^2)\n",    sysInfo.headerInfo.imgWidth, sysInfo.headerInfo.imgHeight); 
+    printf("|    INFO: Bits per pixel:  %d (Bits/Pixel)\n",     sysInfo.headerInfo.bitsPerPix);        
+    printf("|    INFO: Colour Planes:   %d (# of Colour Planes)\n", sysInfo.headerInfo.colourPlanes);
+    printf("|    INFO: Compression:     %d\n", sysInfo.headerInfo.compression );
     printf("|    INFO: DIB Header Size: %d\n", tempInt);
-    printf("|    INFO: Pixel Row Size:  %d\n", bmpHeaderData.rowSizeBytes);
-    printf("|    INFO: Difference:      %d\n", bmpHeaderData.difference);
-    printf("|    INFO: Array Size:      %d\n", bmpHeaderData.arraySize);
+    printf("|    INFO: Pixel Row Size:  %d\n", sysInfo.headerInfo.rowSizeBytes);
+    printf("|    INFO: Difference:      %d\n", sysInfo.headerInfo.difference);
+    printf("|    INFO: Array Size:      %d\n", sysInfo.headerInfo.arraySizeBytes);
     printf("|\n| Finished Parsing File Header!\n|");
     printf(HORIZONTAL_RULE);
 }
@@ -94,25 +95,27 @@ void bmpFileDriver_c::File_ParseHeaderInfo()
  */
 void bmpFileDriver_c::File_ParsePixelData()
 {
+    uint32_t location = sysInfo.headerInfo.dataOffset;
+
+    InitializePixelArray();
+
     printf(HORIZONTAL_RULE);
     printf("| Reading File Pixel Information...\n|\n");
-    uint32_t location = bmpHeaderData.dataOffset;
-    // Allocate memory for the entire pixel array. 
-    pixelArray = (pixel_t**)malloc(bmpHeaderData.arraySize);
-
-    for ( uint32_t i = 1; i <= bmpHeaderData.imgHeight; i++)
+    
+    for ( uint32_t i = 0; i < sysInfo.headerInfo.imgHeight; i++)
     {
-        for (uint32_t j = 1; j <= bmpHeaderData.imgWidth; j++)
+        for (uint32_t j = 0; j < sysInfo.headerInfo.imgWidth; j++)
         {
             if (ftell(inputFile) < 0)
             {
+                // read untill end of file
                 break;
             }
             pixelArray[i][j].red_pixel   = Util_Read_File(inputFile, location++, 1);
             pixelArray[i][j].green_pixel = Util_Read_File(inputFile, location++, 1);
             pixelArray[i][j].blue_pixel  = Util_Read_File(inputFile, location++, 1);
         }
-        location = location + bmpHeaderData.difference;
+        location = location + sysInfo.headerInfo.difference;
     }
     printf("|\n| Finished Reading File Pixel Information!\n|");
     printf(HORIZONTAL_RULE);
@@ -135,9 +138,7 @@ void bmpFileDriver_c::File_FilterPixelArray()
  */
 bmpFileDriver_c::bmpFileDriver_c()
 {
-    File_ParseHeaderInfo();
-    File_ParsePixelData();
-    File_FilterPixelArray();
+
 }
 
 /**
@@ -147,13 +148,8 @@ bmpFileDriver_c::bmpFileDriver_c()
  */
 void bmp_parse()
 {
-    bmpFileDriver_c bmpFileParser; 
-}
-
-/**
- * Writes the BMP file information of the file image.  
- */
-void bmp_write()
-{
-
+    bmpFileDriver_c bmpFileDriver;
+    bmpFileDriver.File_ParseHeaderInfo();
+    bmpFileDriver.File_ParsePixelData();
+    bmpFileDriver.File_FilterPixelArray();
 }

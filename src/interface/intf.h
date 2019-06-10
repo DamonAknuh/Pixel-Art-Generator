@@ -34,6 +34,14 @@ extern "C" {
 /*************************************************************************************************/
 
 /**
+ * This function will initialize the global pixelArray variable with the correct size.
+ * The size information is gathered from information in the input file header.
+ * 
+ * @requires that the inputfile header data is parsed.
+ */
+void InitializePixelArray();
+
+/**
  * High level decision for which bmp/jpeg driver to use to parse image 
  * pixel data. Will then call down into the correct implementation for  
  * provided file.

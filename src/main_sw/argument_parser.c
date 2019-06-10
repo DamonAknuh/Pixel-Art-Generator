@@ -81,7 +81,7 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
     }
     else
     {
-        puts("|ERROR! Could Not Verify that specified Input file is present...");
+        puts("| ERROR! Could Not Verify that specified Input file is present...");
         assert (0); // ASSERT! NO DEFAULT INPUT FILE IN DIRECTORY
     }
 
@@ -100,7 +100,7 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
     }
     else 
     {
-        puts("|ERROR! Could Not Verify that specified Output file is present...");
+        puts("| ERROR! Could Not Verify that specified Output file is present...");
         assert(0); // ASSERT! NO DEFAULT OUTPUT FILE IN DIRECTORY
     }
 }

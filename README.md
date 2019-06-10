@@ -1,27 +1,51 @@
 # Pixel-Art-Generator
 Pixel Art Generator
+call the generated 
 
 ## Summary  
-This program takes a .bmp image file and parses/stores the pixel data to apply various image filters. Currently this projec
+This program takes a .bmp image file and parses/stores the pixel data to apply various image filters. 
 
+## Todo:
+- [x] - Infrastructure and Platform setup  
+  - [x] - Flush out make system for  
+  - [x] - Create Bare-bones main.c  
+  - [x] - Create main header (project.h) file
+  - [x] - Design, and create argument parser check and verification
+- [x] - Interface Driver
+  - [x] - Create intf.cpp and header file
+  - [x] - create virtual function
+  - [ ] - Create csv output mode for debugging and visualization of pixel data
+- [ ] - BMP File Parser
+  - [x] - Create surrounding bmp file infrastructe and compile .cpp files
+  - [ ] - Port Header file parser from other github project
+  - [ ] - write file pixel parser to store pixel information
+  - [ ] - write .bmp output file write functionality
+- [ ] - JPEG File Parser
+  - [x] - Create surrounding jpeg file infrastructe and compile .cpp files
+  - [ ] - Port Header file parser from other github project
+  - [ ] - write file pixel parser to store pixel information
+  - [ ] - write .jpeg output file write functionality
+
+
+### Input Modes
+This project currently supports two different input file types (.bmp, and .jpeg). 
+This project supports three different output modes (.bmp, .jpeg, .csv). CSV mode is used to debug 
+and visualize raw pixel data output
 
 ## Building
 
 build the program with the following command  
 
-    user$ make build/PAG.elf
-  
-    user$ cd build
+    user$ make PAG
   
     user$ .\PAG.elf [INPUTFILE_NAME] [OUTPUTFILE_NAME]
 
-call the generated 
-## Todo:
+### Build Targets
+The below list outlines the various targets you can make/compile within this project. 
 
- [X] - Flush out make system  
- [X] - CreatE Bare-bones main.c  
- [X] - Argument Parser  
- [X] - Create Bare-bones bmp file parser and driver  
- [X] - 
+ * PAG  -- Main build target for project
+ * test_PAG -- Test target for project (TBD)
+
+
 
 

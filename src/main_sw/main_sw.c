@@ -23,6 +23,7 @@
 // project related includes.
 #include "project.h"
 #include "argument_parser.h"
+#include "csv_defines.h"
 #include "bmp_defines.h"
 #include "jpeg_defines.h"
 #include "intf.h"          // for intf_* functions

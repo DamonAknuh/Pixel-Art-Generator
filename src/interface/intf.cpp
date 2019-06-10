@@ -23,6 +23,7 @@
 #include "project.h"
 #include "intf.h"
 #include "intf_drv.hpp"
+#include "csv_write.h"
 
 #include <cstdio>
 #include <fstream>
@@ -45,7 +46,7 @@ fileIntf_i::fileIntf_i()
  */
 uint32_t Intf_Parse()
 {
-    switch(sysInfo.inputMode)
+    switch(sysInfo.bitMask.inputMode)
     {
         case 0:
             bmp_parse();
@@ -54,6 +55,9 @@ uint32_t Intf_Parse()
         case 1:
             jpeg_parse(); // @todo: implement jpeg portion of project. 
             break;
+        default:
+            printf("| ERROR! Unsupported input file mode");
+
     }
     return 1;
 }
@@ -66,15 +70,21 @@ uint32_t Intf_Parse()
  */
 uint32_t Intf_Write()
 {
-    switch(sysInfo.outputMode)
+    switch(sysInfo.bitMask.outputMode)
     {
         case 0:
-
+            ///todo: implement bmp write functionality
             break;
 
         case 1:
-
+            ///todo: implement jpeg write functionality
             break;
+        case 2:
+            CSV_WriteFile();
+            break; 
+        default:
+            printf("| ERROR! Unsupported output file mode");
     }
+    free(pixelArray);
     return 1;
 }

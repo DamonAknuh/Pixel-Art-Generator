@@ -23,7 +23,6 @@
 #ifndef __BMP_DRIVER_H
 #define __BMP_DRIVER_H
 
-
  #ifdef __cplusplus 
  #include "bmp_defines.h"
  #include "intf_drv.hpp"
@@ -37,14 +36,13 @@
 class bmpFileDriver_c : public fileIntf_i
 {
     public:
+    
     bmpFileDriver_c();
     void File_ParseHeaderInfo();    ///< Parses image header information
     void File_ParsePixelData();     ///< Stores Pixel Array and information
     void File_FilterPixelArray();   ///< Manipulates the bmp file into pixel Art.
-    void File_WritePixelData();
+    void File_WritePixelData();     ///< Writes the filter pixel data into the bmp output file. 
     
-    private:
-    bmpHeaderData_t bmpHeaderData;
 };
 
  #endif // __cplusplus

@@ -1,6 +1,6 @@
 /********************************************************************************************                                                                                       
     Copyright (c) 2019 Damon Hunka                                                          
-                                                                                            
+                                                                                           
     Permission is hereby granted, free of charge, to any person obtaining a copy            
     of this software and associated documentation files (the "Software"), to deal           
     in the Software without restriction, including without limitation the rights            
@@ -10,7 +10,7 @@
                                                                                           
     The above copyright notice and this permission notice shall be included in all          
     copies or substantial portions of the Software.                                         
-                                                                                          
+                                                                                         
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR              
     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,                
     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE             
@@ -20,43 +20,51 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-#ifndef __INTF_DRV_H
-#define __INTF_DRV_H
-
 #include "project.h"
-#include <fstream>
+#include "csv_write.h"
+#include "util.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif //__cplusplus
+#include <stdio.h>
 
-/**
- * PLACE HOLDER FOR CLASS INFORMATION
- * 
- * @inheritance: base class interface
- * @TODO: aknuh add class infromation
- */
-class fileIntf_i
+
+
+void CSV_WriteFile(void)
 {
-    public:
-    fileIntf_i();
-    ~fileIntf_i()
+    FILE  *outputFile;
+    uint32_t imgHeight = sysInfo.headerInfo.imgHeight;
+    uint32_t imgWidth = sysInfo.headerInfo.imgWidth;
+
+    // open csv output file
+    printf(HORIZONTAL_RULE);
+    printf("| Writing into CSV output file...\n");
+    outputFile = fopen(sysInfo.inputFileName, "rb");
+    if (outputFile != NULL)
     {
-        fclose(inputFile);
+        for (uint32_t i=0; i < imgHeight; i++)
+        {
+            for (uint32_t j=0; j < imgWidth; j++)
+            {
+
+            }
+            for (uint32_t j=0; j < imgWidth; j++)
+            {
+                
+            }
+            for (uint32_t j=0; j < imgWidth; j++)
+            {
+                
+            }
+        }
+
+
     }
-    
-    virtual void File_ParseHeaderInfo()   = 0;
-    virtual void File_ParsePixelData()    = 0;
-    virtual void File_FilterPixelArray()  = 0;
-    //virtual void File_WritePixelData();
+    else 
+    {
+        printf(" | ERROR! Failed to open CSV output file.");
+    }
 
-    protected:
-    FILE *inputFile;
-    FILE *outputFile;
-};
 
-#ifdef __cplusplus
+
+
+
 }
-#endif //__cplusplus
-
-#endif // __INTF_DRV_H

@@ -1,6 +1,6 @@
 /********************************************************************************************                                                                                       
     Copyright (c) 2019 Damon Hunka                                                          
-                                                                                            
+                                                                                           
     Permission is hereby granted, free of charge, to any person obtaining a copy            
     of this software and associated documentation files (the "Software"), to deal           
     in the Software without restriction, including without limitation the rights            
@@ -10,7 +10,7 @@
                                                                                           
     The above copyright notice and this permission notice shall be included in all          
     copies or substantial portions of the Software.                                         
-                                                                                          
+                                                                                         
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR              
     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,                
     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE             
@@ -20,43 +20,18 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-#ifndef __INTF_DRV_H
-#define __INTF_DRV_H
-
-#include "project.h"
-#include <fstream>
+#ifndef __CSV_WRITE_H
+ #define __CSV_WRITE_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
 
-/**
- * PLACE HOLDER FOR CLASS INFORMATION
- * 
- * @inheritance: base class interface
- * @TODO: aknuh add class infromation
- */
-class fileIntf_i
-{
-    public:
-    fileIntf_i();
-    ~fileIntf_i()
-    {
-        fclose(inputFile);
-    }
-    
-    virtual void File_ParseHeaderInfo()   = 0;
-    virtual void File_ParsePixelData()    = 0;
-    virtual void File_FilterPixelArray()  = 0;
-    //virtual void File_WritePixelData();
+void CSV_WriteFile(void);
 
-    protected:
-    FILE *inputFile;
-    FILE *outputFile;
-};
 
 #ifdef __cplusplus
 }
 #endif //__cplusplus
 
-#endif // __INTF_DRV_H
+#endif // __CSV_WRITE_H

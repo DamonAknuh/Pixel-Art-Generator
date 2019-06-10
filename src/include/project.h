@@ -67,14 +67,44 @@ typedef struct
 extern pixel_t **pixelArray;
 
 /**
+ * This is the structure to contain file information extracted from
+ * the file image header data.
+ */
+typedef struct
+{
+    uint32_t fileSize;          //< Image file size (Bytes)
+    uint32_t dataOffset;        //< Start of Pixel DATA (Byte offset)
+    uint32_t imgWidth;          //< Image pixel width  (Pixels)
+    uint32_t imgHeight;         //< Image pixel height (Pixels)
+    uint32_t rowSizeBytes;      //< Row size including padding (Bytes)
+    uint32_t arraySizeBytes;    //< total pixel array size (Bytes)
+    uint32_t arrayElements;     //< Raw array size need to hold total pixel array 
+    uint32_t colourPlanes;      //< TODO FILL
+    uint32_t compression;       //< TODO FILL
+    uint32_t difference;  
+    uint32_t bitsPerPix;        //< Bits per Pixel in the image eg 24,32
+    uint32_t pixelBits;         //< Number of values each pixel has.
+} headerInfo_t;
+
+
+/**
  * This structure contains system information used for global project management. 
  */
 typedef struct 
 {
-    bool inputMode;             //< either BMP_FILE or JPEG_FILE
-    bool outputMode;            //< either BMP_FILE or JPEG_FILE
-    char inputFileName[MAX_FILE_LENGTH+PATH_SIZE]; 
-    char outputFileName[MAX_FILE_LENGTH+PATH_SIZE];
+    union 
+    {
+        struct
+        {
+            uint32_t inputMode  : 1;  //< either BMP_FILE or JPEG_FILE
+            uint32_t outputMode : 2;  //< either BMP_FILE (0), JPEG_FILE (1), CSV_FILE (2)
+            uint32_t rsvd       : 30; //< Reserved bit field for further developement
+        }bitMask;
+        uint32_t allBits;
+    };
+    char inputFileName[MAX_FILE_LENGTH+PATH_SIZE];  //<  Output file name
+    char outputFileName[MAX_FILE_LENGTH+PATH_SIZE]; //<  Output file name
+    headerInfo_t headerInfo;                        //< File header information
 } sysInfo_t;
 // extern this system variable for global usage. 
 extern sysInfo_t sysInfo;

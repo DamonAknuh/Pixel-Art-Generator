@@ -29,24 +29,28 @@
 /**
  * Check file extension to set file mode. 
  */
-bool CheckFileMode(char FileName[MAX_FILE_LENGTH])
+uint8_t CheckFileMode(char FileName[MAX_FILE_LENGTH])
 {
     char * ext;
-    bool mode;
+    uint8_t mode;
     ext = strrchr(FileName,'.');
     printf("|     `-> Extension found: %s\n", ext);
     if (strcmp( ext , ".bmp") == 0) 
     {
-        mode= false; 
+        mode = 0; 
     }
     else if (strcmp( ext , ".jpeg") == 0) 
     {
-        mode = true;
+        mode = 1;
+    }
+    else if (strcmp( ext , ".csv") == 0) 
+    {
+        mode = 2;
     }
     else 
     {
-        puts("|!!ERROR!! UNSUPPORTED FILE FORMAT\n");
-        assert(0);  // file is not an .jpeg || .bmp file format. 
+        puts("| ERROR! Unsupported file format\n");
+        assert(0);  // file is not an .jpeg || .bmp || .csv file format. 
     }
     return mode;
 }
@@ -60,7 +64,7 @@ bool CheckFileMode(char FileName[MAX_FILE_LENGTH])
 void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
 {
     FILE *fp = NULL;
-    bool mode; 
+    uint8_t mode; 
 
     // CHECK INPUT FILE
     printf("| Checking %s \n", inFile);
@@ -72,7 +76,7 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
         printf("| Checking Input Extension\n");
         mode = CheckFileMode(inFile); 
         printf("|    INFO: Using Input Mode:   %d\n|\n", mode);
-        sysInfo.inputMode = mode; 
+        sysInfo.bitMask.inputMode = mode; 
         fclose(fp );
     }
     else
@@ -91,7 +95,7 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
         printf("| Checking Output Extension\n");
         mode = CheckFileMode(inFile); 
         printf("|    INFO: Using Output Mode:   %d\n", mode);
-        sysInfo.outputMode = mode; 
+        sysInfo.bitMask.outputMode = mode; 
         fclose(fp );
     }
     else 
@@ -103,6 +107,7 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
 
 /**
  * Parses command line entry arguments. 
+ * @todo: consider returning error status instead of assertion
  */
 void Parse_Arguments(int argc, char const *argv[])
 {

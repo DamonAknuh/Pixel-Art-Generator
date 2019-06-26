@@ -46,7 +46,7 @@ fileIntf_i::fileIntf_i()
  */
 void InitializePixelArray()
 {
-    uint32_t len = sysInfo.headerInfo.imgWidth * sizeof(pixel_t*);
+    uint32_t len = sysInfo.headerInfo.imgHeight * sizeof(pixel_t*);
 
     // Allocate memory for pointer array of img width size. 
     pixelArray = (pixel_t**)malloc(len);
@@ -57,9 +57,9 @@ void InitializePixelArray()
     }
 
     // Iterate over the pointer array and allocate memory for each pointer.
-    for (uint32_t i = 0; i < sysInfo.headerInfo.imgWidth; i++)
+    for (uint32_t i = 0; i < sysInfo.headerInfo.imgHeight; i++)
     {
-        pixelArray[i] = (pixel_t*)malloc(sysInfo.headerInfo.imgHeight * sizeof(pixel_t));
+        pixelArray[i] = (pixel_t*)malloc(sysInfo.headerInfo.imgWidth * sizeof(pixel_t));
         
         if (pixelArray[i] == NULL)
         {

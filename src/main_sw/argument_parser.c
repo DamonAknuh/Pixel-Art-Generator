@@ -31,11 +31,17 @@
  */
 uint8_t CheckFileMode(char FileName[MAX_FILE_LENGTH])
 {
-    char * ext;
+    printf("| Checking Input Extension\n");
     uint8_t mode;
-    ext = strrchr(FileName,'.');
+    char* ext = strrchr(FileName,'.');
+
     printf("|     `-> Extension found: %s\n", ext);
-    if (strcmp( ext , ".bmp") == 0) 
+    if ( ext == NULL )
+    {
+        puts("| ERROR! Cannot find file format\n");
+        assert(0);  // file is not an .jpeg || .bmp || .csv file format. 
+    }
+    else if (strcmp( ext , ".bmp") == 0) 
     {
         mode = 0; 
     }
@@ -52,6 +58,7 @@ uint8_t CheckFileMode(char FileName[MAX_FILE_LENGTH])
         puts("| ERROR! Unsupported file format\n");
         assert(0);  // file is not an .jpeg || .bmp || .csv file format. 
     }
+    printf("|    INFO: Using Output Mode:   %d\n", mode);
     return mode;
 }
 
@@ -67,15 +74,12 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
     uint8_t mode; 
 
     // CHECK INPUT FILE
-    printf("| Checking %s \n", inFile);
+    printf("| Input File: %s \n", inFile);
     fp = fopen(inFile, "r");
     if  (fp != NULL)
     {
-        printf("|    INFO: Using Input File:  %s\n", inFile);
-        strcpy(sysInfo.inputFileName,  inFile);
-        printf("| Checking Input Extension\n");
         mode = CheckFileMode(inFile); 
-        printf("|    INFO: Using Input Mode:   %d\n|\n", mode);
+        strcpy(sysInfo.inputFileName,  inFile);
         sysInfo.bitMask.inputMode = mode; 
         fclose(fp );
     }
@@ -86,15 +90,12 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
     }
 
     // CHECK OUTPUT FILE
-    printf("| Checking %s \n", outFile);
+    printf("|\n| Output File %s \n", outFile);
     fp = fopen(outFile, "r");
     if ( fp != NULL )
     {
-        printf("|    INFO: Using Output File: %s\n", outFile);
+        mode = CheckFileMode(outFile); 
         strcpy(sysInfo.outputFileName, outFile);
-        printf("| Checking Output Extension\n");
-        mode = CheckFileMode(inFile); 
-        printf("|    INFO: Using Output Mode:   %d\n", mode);
         sysInfo.bitMask.outputMode = mode; 
         fclose(fp );
     }
@@ -108,6 +109,7 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
 /**
  * Parses command line entry arguments. 
  * @todo: consider returning error status instead of assertion
+ * @todo: check that default file is not overruning with compile time check
  */
 void Parse_Arguments(int argc, char const *argv[])
 {

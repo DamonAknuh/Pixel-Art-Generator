@@ -57,11 +57,11 @@ void InitializePixelArray()
     }
 
     // Iterate over the pointer array and allocate memory for each pointer.
-    for (uint32_t x = 0; x < sysInfo.headerInfo.imgWidth; x++)
+    for (uint32_t i = 0; i < sysInfo.headerInfo.imgWidth; i++)
     {
-        pixelArray[x] = (pixel_t*)malloc(sysInfo.headerInfo.imgHeight * sizeof(pixel_t));
+        pixelArray[i] = (pixel_t*)malloc(sysInfo.headerInfo.imgHeight * sizeof(pixel_t));
         
-        if (pixelArray[x] == NULL)
+        if (pixelArray[i] == NULL)
         {
             printf("| ERROR! Failed to allocate space for pixel array\n|\n");
             assert(0);

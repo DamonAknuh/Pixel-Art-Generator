@@ -38,12 +38,13 @@ extern "C" {
 /*************************************************************************************************/
 
 #define HORIZONTAL_RULE "_______________________________________________\n"
-#define MAX_FILE_LENGTH 30
+#define MAX_FILE_LENGTH 40
 #define PATH_SIZE 11
 
 #define PATH_TO_IMAGES "./images/"
 #define DEFAULT_INPUT_FILE "in_default.bmp"
-#define DEFAULT_OUTPUT_FILE "out_default.bmp"
+#define DEFAULT_OUTPUT_FILE "out_default_debug.csv"
+// #define DEFAULT_OUTPUT_FILE "out_default.bmp"
 
 #define BMP_FILE 0
 #define JPEG_FILE 1
@@ -76,7 +77,7 @@ typedef struct
     uint32_t dataOffset;        //< Start of Pixel DATA (Byte offset)
     uint32_t imgWidth;          //< Image pixel width  (Pixels)
     uint32_t imgHeight;         //< Image pixel height (Pixels)
-    uint32_t rowSizeBytes;      //< Row size including padding (Bytes)
+    uint32_t rowRawSizeBytes;   //< Row size including padding (Bytes)
     uint32_t arraySizeBytes;    //< total pixel array size (Bytes)
     uint32_t arrayElements;     //< Raw array size need to hold total pixel array 
     uint32_t colourPlanes;      //< TODO FILL

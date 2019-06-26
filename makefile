@@ -82,6 +82,5 @@ clean:
 	$(RM) -r $(TARGET_EXEC).exe
 
 -include $(DEPS)
-1
 MKDIR_P ?= mkdir -p
 

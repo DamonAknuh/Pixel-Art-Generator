@@ -53,13 +53,13 @@ int main(int argc, char const *argv[])
 
     // Read and parse files
     status = Intf_Parse();
-    assert(status < 0);
+    assert(status > 0);
 
     // Output file information into file. 
     status = Intf_Write();
-    assert(status < 0);    
+    assert(status > 0);    
 
     // MAIN SOFTWARE ENTRY
 
-    return 0;
+    return 1;
 }

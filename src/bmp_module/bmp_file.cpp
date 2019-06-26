@@ -67,8 +67,8 @@ void bmpFileDriver_c::File_ParseHeaderInfo()
     // DIB HEADER
     tempInt = Util_Read_File(inputFile, DIBHEADER, 4);
 
-    sysInfo.headerInfo.rowSizeBytes   = (((sysInfo.headerInfo.bitsPerPix * sysInfo.headerInfo.imgWidth) + 31 ) / 8);
-    sysInfo.headerInfo.difference     = sysInfo.headerInfo.rowSizeBytes - (sysInfo.headerInfo.imgWidth * 3);
+    sysInfo.headerInfo.rowRawSizeBytes   = (((sysInfo.headerInfo.bitsPerPix * sysInfo.headerInfo.imgWidth) + 31 ) / 32) * 4;  /// Pixel data padded to dwords
+    sysInfo.headerInfo.difference     = sysInfo.headerInfo.rowRawSizeBytes - (sysInfo.headerInfo.imgWidth * (sysInfo.headerInfo.bitsPerPix / 8) );
     sysInfo.headerInfo.arraySizeBytes = sysInfo.headerInfo.imgHeight * sysInfo.headerInfo.imgWidth * sizeof(pixel_t);
     sysInfo.headerInfo.arrayElements  = sysInfo.headerInfo.imgHeight * sysInfo.headerInfo.imgWidth;
 
@@ -82,7 +82,7 @@ void bmpFileDriver_c::File_ParseHeaderInfo()
     printf("|    INFO: Colour Planes:   %d (# of Colour Planes)\n", sysInfo.headerInfo.colourPlanes);
     printf("|    INFO: Compression:     %d\n", sysInfo.headerInfo.compression );
     printf("|    INFO: DIB Header Size: %d\n", tempInt);
-    printf("|    INFO: Pixel Row Size:  %d\n", sysInfo.headerInfo.rowSizeBytes);
+    printf("|    INFO: Pixel Row Size:  %d\n", sysInfo.headerInfo.rowRawSizeBytes);
     printf("|    INFO: Difference:      %d\n", sysInfo.headerInfo.difference);
     printf("|    INFO: Array Size:      %d\n", sysInfo.headerInfo.arraySizeBytes);
     printf("|\n| Finished Parsing File Header!\n|");
@@ -109,6 +109,7 @@ void bmpFileDriver_c::File_ParsePixelData()
             if (ftell(inputFile) < 0)
             {
                 // read untill end of file
+                printf("| WARNING! Reaching EOF prematurely");
                 break;
             }
             pixelArray[i][j].red_pixel   = Util_Read_File(inputFile, location++, 1);
@@ -150,6 +151,7 @@ void bmp_parse()
 {
     bmpFileDriver_c bmpFileDriver;
     bmpFileDriver.File_ParseHeaderInfo();
+    //bmpFileDriver.File_ValidateHeaderInfo();
     bmpFileDriver.File_ParsePixelData();
     bmpFileDriver.File_FilterPixelArray();
 }

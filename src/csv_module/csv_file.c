@@ -37,34 +37,33 @@ void CSV_WriteFile(void)
     // open csv output file
     printf(HORIZONTAL_RULE);
     printf("| Writing into CSV output file...\n");
-    outputFile = fopen(sysInfo.inputFileName, "rb");
+    outputFile = fopen(sysInfo.outputFileName, "w");
     if (outputFile != NULL)
     {
-        for (uint32_t i=0; i < imgHeight; i++)
+        for (uint32_t i=imgHeight-1; i > 0; i--)
         {
-            for (uint32_t j=0; j < imgWidth; j++)
+            for (uint32_t j = imgWidth-1; j > 0; j--)
             {
-
+                //printf("|%3d|", pixelArray[i][j].red_pixel);
+                fprintf(outputFile, "|%3d", pixelArray[i][j].red_pixel);
             }
-            for (uint32_t j=0; j < imgWidth; j++)
+            for (uint32_t j = imgWidth-1; j > 0; j--)
             {
-                
+                //printf("|%3d|", pixelArray[i][j].green_pixel);
+                fprintf(outputFile, "|%3d", pixelArray[i][j].green_pixel);
             }
-            for (uint32_t j=0; j < imgWidth; j++)
+            for (uint32_t j = imgWidth-1; j > 0; j--)
             {
-                
+                //printf("|%3d|", pixelArray[i][j].blue_pixel);
+                fprintf(outputFile, "|%3d", pixelArray[i][j].blue_pixel);
             }
+            fprintf(outputFile, "\n");
+            printf("%d\n", i);
         }
-
-
+        fclose(outputFile);
     }
     else 
     {
         printf(" | ERROR! Failed to open CSV output file.");
     }
-
-
-
-
-
 }

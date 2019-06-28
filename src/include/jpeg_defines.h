@@ -52,7 +52,7 @@ typedef struct {
  * 
  * @todo: aknuh add struct infromation
  */
-void jpeg_parse();
+void JPEG_Parse();
 
 
 #ifdef __cplusplus

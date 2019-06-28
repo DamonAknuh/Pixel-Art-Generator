@@ -34,6 +34,11 @@ extern "C" {
 #endif // __cplusplus
 
 /*************************************************************************************************/
+/*                            MACRO DEFINTIONS                                                   */
+/*************************************************************************************************/
+
+
+/*************************************************************************************************/
 /*                            GLOBAL DEFINTIONS                                                  */
 /*************************************************************************************************/
 
@@ -42,7 +47,7 @@ extern "C" {
 #define PATH_SIZE 11
 
 #define PATH_TO_IMAGES "./images/"
-#define DEFAULT_INPUT_FILE "image_2.bmp"
+#define DEFAULT_INPUT_FILE "image_3.bmp"
 #define DEFAULT_OUTPUT_FILE "out_default_debug.csv"
 // #define DEFAULT_OUTPUT_FILE "out_default.bmp"
 
@@ -82,7 +87,7 @@ typedef struct
     uint32_t arrayElements;     //< Raw array size need to hold total pixel array 
     uint32_t colourPlanes;      //< TODO FILL
     uint32_t compression;       //< TODO FILL
-    uint32_t difference;  
+    uint32_t difference;        //< This is padding value of the pixel array (Bytes)
     uint32_t bitsPerPix;        //< Bits per Pixel in the image eg 24,32
     uint32_t pixelBits;         //< Number of values each pixel has.
 } headerInfo_t;
@@ -107,6 +112,7 @@ typedef struct
     char outputFileName[MAX_FILE_LENGTH+PATH_SIZE]; //<  Output file name
     headerInfo_t headerInfo;                        //< File header information
 } sysInfo_t;
+
 // extern this system variable for global usage. 
 extern sysInfo_t sysInfo;
 

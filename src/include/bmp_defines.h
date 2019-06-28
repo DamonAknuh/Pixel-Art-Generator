@@ -57,12 +57,12 @@ extern "C" {
  * the written information into useful array structures. 
  * 
  */
-void bmp_parse();
+void BMP_Parse();
 
 /**
  * Writes the BMP file information of the file image.  
  */
-void bmp_write();
+void BMP_Write();
 
 #ifdef __cplusplus
 }

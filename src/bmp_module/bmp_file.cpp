@@ -147,7 +147,7 @@ bmpFileDriver_c::bmpFileDriver_c()
  * the written information into useful array structures. 
  * 
  */
-void bmp_parse()
+void BMP_Parse()
 {
     bmpFileDriver_c bmpFileDriver;
     bmpFileDriver.File_ParseHeaderInfo();

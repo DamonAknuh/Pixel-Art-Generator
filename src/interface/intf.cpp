@@ -81,11 +81,11 @@ uint32_t Intf_Parse()
     switch(sysInfo.bitMask.inputMode)
     {
         case 0:
-            bmp_parse();
+            BMP_Parse();
             break;
 
         case 1:
-            jpeg_parse(); // @todo: implement jpeg portion of project. 
+            JPEG_Parse(); // @todo: implement jpeg portion of project. 
             break;
         default:
             printf("| ERROR! Unsupported input file mode");
@@ -105,7 +105,7 @@ uint32_t Intf_Write()
     switch(sysInfo.bitMask.outputMode)
     {
         case 0:
-            ///todo: implement bmp write functionality
+            BMP_Write();
             break;
 
         case 1:

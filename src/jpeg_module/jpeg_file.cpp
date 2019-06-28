@@ -27,7 +27,7 @@
  * 
  * @todo: aknuh add struct infromation
  */
-void jpeg_parse(void)
+void JPEG_Parse(void)
 {
     // @todo: dhunka implement jpeg file parser.
     assert(0);

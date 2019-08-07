@@ -92,7 +92,6 @@ typedef struct
     uint32_t pixelBits;         //< Number of values each pixel has.
 } headerInfo_t;
 
-
 /**
  * This structure contains system information used for global project management. 
  */

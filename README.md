@@ -5,6 +5,8 @@ call the generated
 ## Summary  
 This program takes a .bmp image file and parses/stores the pixel data to apply various image filters. 
 
+Future plans will enable more image filters ontop of other file output modes. 
+
 ## Todo:
 - [x] - Infrastructure and Platform setup  
   - [x] - Flush out make system for  
@@ -14,7 +16,7 @@ This program takes a .bmp image file and parses/stores the pixel data to apply v
 - [x] - Interface Driver
   - [x] - Create intf.cpp and header file
   - [x] - create virtual function
-  - [ ] - Create csv output mode for debugging and visualization of pixel data
+  - [X] - Create csv output mode for debugging and visualization of pixel data
 - [ ] - BMP File Parser
   - [x] - Create surrounding bmp file infrastructe and compile .cpp files
   - [ ] - Port Header file parser from other github project
@@ -28,8 +30,8 @@ This program takes a .bmp image file and parses/stores the pixel data to apply v
 
 
 ### Input Modes
-This project currently supports two different input file types (.bmp, and .jpeg). 
-This project supports three different output modes (.bmp, .jpeg, .csv). CSV mode is used to debug 
+This project currently supports two different input file types (.bmp, and ~~.jpeg~~). 
+This project supports three different output modes (~~.bmp, .jpeg,~~ .csv). CSV mode is used to debug 
 and visualize raw pixel data output
 
 ## Building

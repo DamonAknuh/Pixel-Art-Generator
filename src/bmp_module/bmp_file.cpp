@@ -130,6 +130,8 @@ void bmpFileDriver_c::File_ParsePixelData()
 void bmpFileDriver_c::File_FilterPixelArray()
 {
     
+    
+    
 }
 
 /**

@@ -20,46 +20,54 @@
     SOFTWARE.                                                                               
 **************************************************************************************************/
 
-#ifndef __INTF_DRV_H
-#define __INTF_DRV_H
 
-#include "project.h"
-#include <fstream>
-#include "mask.hpp"
+#ifndef __MASK_H
+ #define __MASK_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif //__cplusplus
+ #ifdef __cplusplus 
+ #include "project.h"
+
+/*************************************************************************************************/
+/*                            IMAGE FILTER MODES                                                 */
+/*************************************************************************************************/
 
 /**
- * PLACE HOLDER FOR CLASS INFORMATION
- * 
- * @inheritance: base class interface
- * @TODO: aknuh add class infromation
+ * This enum denotes the varies support modes in which you can apply to images. 
  */
-class fileIntf_i
+typedef enum imageFilters_e
 {
-    public:
-    fileIntf_i();
-    ~fileIntf_i()
-    {
-        fclose(inputFile);
-    }
-    
-    virtual void File_ParseHeaderInfo()   = 0;
-    virtual void File_ParsePixelData()    = 0;
-    virtual void File_FilterPixelArray()  = 0;
-    //virtual void File_WritePixelData();
-
-    protected:
-    FILE *inputFile;
-    FILE *outputFile;
-    mask_c imgMask; 
-
+    FILT_PixelArt = 0,
+    FILT_Sharpen,
+    FILT_Blur,
+    FILT_Edge,
 };
 
-#ifdef __cplusplus
-}
-#endif //__cplusplus
+/*************************************************************************************************/
+/*                            IMAGE MASK CLASS                                                   */
+/*************************************************************************************************/
 
-#endif // __INTF_DRV_H
+/**
+ * This class is the mask constructor class used to construct the various filters used to
+ * modify the image. 
+ */
+class mask_c
+{
+    public:
+    mask_c();
+    mask_c(uint8_t size, imageFilters_e filter);
+    double** filter;
+    uint8_t factor;
+    double bias;
+
+    private: 
+    void PixelArtFilterInit();
+    void BlurFilterInit();
+    void EdgeFilterInit();
+    void SharpenInit();
+    void AllocateFilterArray(uint8_t size);
+    void InitializeFilter(imageFilters_e filter);
+    uint8_t filterSize;
+}
+
+ #endif // __cplusplus
+#endif // __MASK_H

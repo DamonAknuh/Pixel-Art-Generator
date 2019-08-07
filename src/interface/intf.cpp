@@ -31,7 +31,8 @@
 #include <cstdbool>
 
 
-fileIntf_i::fileIntf_i()
+fileIntf_i::fileIntf_i() :
+    imgMask(5)
 {
     printf("\nStarting Pixel-Art Conversion...\n");
     inputFile = fopen(sysInfo.inputFileName, "rb");

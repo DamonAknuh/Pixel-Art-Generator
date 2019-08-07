@@ -32,7 +32,7 @@
 
 
 fileIntf_i::fileIntf_i() :
-    imgMask(5)
+    imgMask(5, FILT_PixelArt)
 {
     printf("\nStarting Pixel-Art Conversion...\n");
     inputFile = fopen(sysInfo.inputFileName, "rb");

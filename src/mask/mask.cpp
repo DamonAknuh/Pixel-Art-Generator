@@ -77,7 +77,7 @@ void mask_c::BlurFilterInit()
     {
         for (uint32_t j = 0; j < filterSize; j++)
         {
-            if ( i + j > filterSize)
+            if ( (i + j) > filterSize)
             {
                 filter[i][j] = 1;
             }
@@ -98,7 +98,7 @@ void mask_c::EdgeFilterInit()
     {
         for (uint32_t j = 0; j < filterSize; j++)
         {
-            if ( i = j)
+            if ( i == j)
             {
                 filter[i][j] = (filterSize * filterSize) - 1;
             }
@@ -118,7 +118,7 @@ void mask_c::SharpenInit()
     {
         for (uint32_t j = 0; j < filterSize; j++)
         {
-            if ( i = j)
+            if ( i == j)
             {
                 filter[i][j] = (filterSize * filterSize) - 1;
             }

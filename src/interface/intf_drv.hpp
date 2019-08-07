@@ -25,12 +25,13 @@
 
 #include "project.h"
 #include <fstream>
-#include "mask.hpp"
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
 
+#include "mask.hpp"
 /**
  * PLACE HOLDER FOR CLASS INFORMATION
  * 

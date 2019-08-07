@@ -34,13 +34,13 @@
 /**
  * This enum denotes the varies support modes in which you can apply to images. 
  */
-typedef enum imageFilters_e
+typedef enum
 {
     FILT_PixelArt = 0,
     FILT_Sharpen,
     FILT_Blur,
     FILT_Edge,
-};
+}imageFilters_e;
 
 /*************************************************************************************************/
 /*                            IMAGE MASK CLASS                                                   */
@@ -67,7 +67,7 @@ class mask_c
     void AllocateFilterArray(uint8_t size);
     void InitializeFilter(imageFilters_e filter);
     uint8_t filterSize;
-}
+};
 
  #endif // __cplusplus
 #endif // __MASK_H

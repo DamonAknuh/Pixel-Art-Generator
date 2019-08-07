@@ -157,3 +157,9 @@ void BMP_Parse()
     bmpFileDriver.File_ParsePixelData();
     bmpFileDriver.File_FilterPixelArray();
 }
+
+void BMP_Write()
+{
+
+    
+}

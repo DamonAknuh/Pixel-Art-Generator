@@ -47,7 +47,7 @@ typedef enum
 /*************************************************************************************************/
 
 /**
- * This class is the mask constructor class used to construct the various filters used to
+ * This class is the mask constructor and management class used to store various filters used to
  * modify the image. 
  */
 class mask_c
@@ -55,6 +55,8 @@ class mask_c
     public:
     mask_c();
     mask_c(uint8_t size, imageFilters_e filter);
+    uint8_t filterSize;
+    imageFilters_e selectedFilter; 
     double** filter;
     uint8_t factor;
     double bias;
@@ -66,7 +68,7 @@ class mask_c
     void SharpenInit();
     void AllocateFilterArray(uint8_t size);
     void InitializeFilter(imageFilters_e filter);
-    uint8_t filterSize;
+
 };
 
  #endif // __cplusplus

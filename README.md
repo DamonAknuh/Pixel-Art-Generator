@@ -7,6 +7,12 @@ This program takes a .bmp image file and parses/stores the pixel data to apply v
 
 Future plans will enable more image filters ontop of other file output modes. 
 
+For JPEG and PNG file operations this engine will utilize the libjpeg and libpng c libraries. See links to their individual documentations below. 
+
+libjpeg: https://www.ijg.org/
+
+libpng:  http://www.libpng.org/pub/png/libpng.html
+
 ## Todo:
 - [x] - Infrastructure and Platform setup  
   - [x] - Flush out make system for  

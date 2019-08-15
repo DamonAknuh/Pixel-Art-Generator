@@ -58,6 +58,18 @@ uint32_t Util_Byte_to_int(const unsigned char DATA);
  */
 uint32_t Util_Read_File(FILE* fp, uint32_t loc, uint32_t size);
 
+/**
+ * Applies a bandpass filter to input values. In essense this function 
+ * truncates values to within the min, max range. 
+ * 
+ * @param   value   input value which to check bounds and truncate
+ * @param   min     minimum range of accepted value 
+ * @param   max     maximum range of accepted value
+ * 
+ * @note size has to be less than 4.
+ */
+uint32_t Util_BandPass_filter(uint32_t value, uint32_t min, uint32_t max);
+
 #ifdef __cplusplus
 }
 #endif //__cplusplus

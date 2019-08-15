@@ -32,6 +32,8 @@
 
 /**
  * This will allocate the space on the heap used for the filter array. 
+ * 
+ * @param size: size of resultant image filter. 
  */
 void mask_c::AllocateFilterArray(uint8_t size)
 {
@@ -120,7 +122,7 @@ void mask_c::SharpenInit()
         {
             if ( i == j)
             {
-                filter[i][j] = (filterSize * filterSize) - 1;
+                filter[i][j] = (filterSize * filterSize);
             }
             else 
             {
@@ -163,16 +165,18 @@ void mask_c::InitializeFilter(imageFilters_e filter)
  * default size: 5x5
  */
 mask_c::mask_c() :
-    filterSize(5)
+    filterSize(5),
+    selectedFilter(FILT_PixelArt)
 {
     AllocateFilterArray(5);
-
+    
     InitializeFilter(FILT_PixelArt);
 
 }
 
 mask_c::mask_c(uint8_t size, imageFilters_e filter) :
-    filterSize(size)
+    filterSize(size),
+    selectedFilter(filter)
 {
     AllocateFilterArray(size);
 

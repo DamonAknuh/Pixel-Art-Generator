@@ -23,7 +23,7 @@
 #include "project.h"
 #include "bmp_defines.h"
 #include "util.h"           // for file reading functions
-#include "intf.h"           // for InitializePixelArray
+#include "intf.h"           // for File_InitializePixelArray
 
 #include <cstdio>
 #include <fstream>
@@ -97,12 +97,12 @@ void bmpFileDriver_c::File_ParsePixelData()
 {
     uint32_t location = sysInfo.headerInfo.dataOffset;
 
-    InitializePixelArray();
+    File_InitializePixelArray();
 
     printf(HORIZONTAL_RULE);
     printf("| Reading File Pixel Information...\n|\n");
     
-    for ( uint32_t i = 0; i < sysInfo.headerInfo.imgHeight; i++)
+    for (uint32_t i = 0; i < sysInfo.headerInfo.imgHeight; i++)
     {
         for (uint32_t j = 0; j < sysInfo.headerInfo.imgWidth; j++)
         {
@@ -123,15 +123,25 @@ void bmpFileDriver_c::File_ParsePixelData()
 }
 
 /**
- * PLACE HOLDER FOR FUNCTION INFORMATION
- * 
- * @todo: aknuh add function infromation
+ * This function will apply the specific filter to the pixel array data
+ * will iterate over the pixels, and call Apply filter function to perform
+ * pixel by pixel calculations
  */
 void bmpFileDriver_c::File_FilterPixelArray()
 {
-    
-    
-    
+    printf(HORIZONTAL_RULE);
+    printf("| Applying selected filter to Pixel data...\n|\n");
+
+    for (uint32_t imgW = 0; imgW < sysInfo.headerInfo.imgWidth; imgW++)
+    {
+        for (uint32_t imgH = 0; imgH < sysInfo.headerInfo.imgWidth; imgH++)
+        {
+            pixelArray[imgW][imgH] = File_ApplyFilter(imgW, imgH);
+        }
+    }
+
+    printf("|\n| Applying selected filter to Pixel data!\n|");
+    printf(HORIZONTAL_RULE);
 }
 
 /**
@@ -151,7 +161,8 @@ bmpFileDriver_c::bmpFileDriver_c()
  */
 void BMP_Parse()
 {
-    bmpFileDriver_c bmpFileDriver;
+    static bmpFileDriver_c bmpFileDriver;
+    
     bmpFileDriver.File_ParseHeaderInfo();
     //bmpFileDriver.File_ValidateHeaderInfo();
     bmpFileDriver.File_ParsePixelData();
@@ -161,5 +172,4 @@ void BMP_Parse()
 void BMP_Write()
 {
 
-    
 }

@@ -24,6 +24,7 @@
 #include "intf.h"
 #include "intf_drv.hpp"
 #include "csv_write.h"
+#include "util.h"
 
 #include <cstdio>
 #include <fstream>
@@ -45,7 +46,7 @@ fileIntf_i::fileIntf_i() :
  * 
  * @requires that the inputfile header data is parsed.
  */
-void InitializePixelArray()
+void fileIntf_i::File_InitializePixelArray()
 {
     uint32_t len = sysInfo.headerInfo.imgHeight * sizeof(pixel_t*);
 
@@ -68,6 +69,53 @@ void InitializePixelArray()
             assert(0);
         }
     }
+}
+
+/**
+ * This function is responsible for apply the specified filter to 
+ * a specific pixel given by (x,y) coordinates.
+ * 
+ * @param imgW   current pixel width coordinate
+ * @param imgH   current pixel height coordinate
+ * 
+ * @returns pixel   resultant pixel after filter applied. 
+ * 
+ * @note: this algorithm was inspired by a similiar one found below:
+ * https://lodev.org/cgtutor/filtering.html
+ */
+pixel_t fileIntf_i::File_ApplyFilter(uint32_t imgW, uint32_t imgH)
+{
+    pixel_t result;
+    uint8_t sizeFilter = imgMask.filterSize;
+    double  factor = imgMask.factor;
+    double  bias   = imgMask.bias;
+ 
+    double red;
+    double green;
+    double blue; 
+
+    // Apply image filter, by summing the multplication of pixelData against the applied filter values.
+    for (uint32_t filterY; filterY < sizeFilter; filterY++)
+    {
+        for (uint32_t filterX; filterX < sizeFilter ; filterX++)
+        {
+            int32_t tempImgX  = (imgW - (sizeFilter / 2) + filterX) % sysInfo.headerInfo.imgWidth;
+            int32_t tempImgY  = (imgH - (sizeFilter / 2) + filterY) % sysInfo.headerInfo.imgHeight;
+
+            red   += pixelArray[tempImgX][tempImgY].red_pixel   * imgMask.filter[filterX][filterY];
+            green += pixelArray[tempImgX][tempImgY].green_pixel * imgMask.filter[filterX][filterY];
+            blue  += pixelArray[tempImgX][tempImgY].blue_pixel  * imgMask.filter[filterX][filterY];
+
+        }
+    }
+
+    // Values need to be limited to accepted pixel range. 
+    result.red_pixel   = Util_BandPass_filter((red   * factor) + bias, 0, 255);
+    result.green_pixel = Util_BandPass_filter((green * factor) + bias, 0, 255);
+    result.green_pixel = Util_BandPass_filter((blue  * factor) + bias, 0, 255);
+
+    return result;
+
 }
 
 

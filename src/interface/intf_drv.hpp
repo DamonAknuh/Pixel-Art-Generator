@@ -50,6 +50,9 @@ class fileIntf_i
     virtual void File_ParseHeaderInfo()   = 0;
     virtual void File_ParsePixelData()    = 0;
     virtual void File_FilterPixelArray()  = 0;
+
+    pixel_t File_ApplyFilter(uint32_t imgW, uint32_t imgH);
+    void File_InitializePixelArray();
     //virtual void File_WritePixelData();
 
     protected:

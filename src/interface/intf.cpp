@@ -110,9 +110,9 @@ pixel_t fileIntf_i::File_ApplyFilter(uint32_t imgW, uint32_t imgH)
     }
 
     // Values need to be limited to accepted pixel range. 
-    result.red_pixel   = Util_BandPass_filter((red   * factor) + bias, 0, 255);
-    result.green_pixel = Util_BandPass_filter((green * factor) + bias, 0, 255);
-    result.green_pixel = Util_BandPass_filter((blue  * factor) + bias, 0, 255);
+    result.red_pixel   = Util_BandPass_Filter((red   * factor) + bias, 0, 255);
+    result.green_pixel = Util_BandPass_Filter((green * factor) + bias, 0, 255);
+    result.green_pixel = Util_BandPass_Filter((blue  * factor) + bias, 0, 255);
 
     return result;
 

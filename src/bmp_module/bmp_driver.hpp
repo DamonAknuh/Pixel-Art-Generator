@@ -45,6 +45,8 @@ class bmpFileDriver_c : public fileIntf_i
     
 };
 
+typedef handler_c<bmpFileDriver_c> bmpDriverHandle;
+
  #endif // __cplusplus
 #endif // __BMP_DRIVER_H
 

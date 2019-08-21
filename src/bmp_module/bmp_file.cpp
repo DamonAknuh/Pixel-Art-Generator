@@ -30,6 +30,7 @@
 #include <cstring>
 #include <cstdbool>
 #include "bmp_driver.hpp"
+#include "intf_drv.hpp"
 
 /**
  * This function parses the bmp files header information. The file header is where all 
@@ -100,7 +101,7 @@ void bmpFileDriver_c::File_ParsePixelData()
     File_InitializePixelArray();
 
     printf(HORIZONTAL_RULE);
-    printf("| Reading File Pixel Information...\n|\n");
+    printf("| Reading BMP File Pixel Information...\n|\n");
     
     for (uint32_t i = 0; i < sysInfo.headerInfo.imgHeight; i++)
     {
@@ -145,6 +146,36 @@ void bmpFileDriver_c::File_FilterPixelArray()
 }
 
 /**
+ * This function writes the pixel data into the bmp file. 
+ */
+void bmpFileDriver_c::File_WritePixelData()
+{
+    uint32_t location = sysInfo.headerInfo.dataOffset;
+
+    printf(HORIZONTAL_RULE);
+    printf("| Writing BMP File Pixel Information...\n|\n");
+    
+    for (uint32_t i = 0; i < sysInfo.headerInfo.imgHeight; i++)
+    {
+        for (uint32_t j = 0; j < sysInfo.headerInfo.imgWidth; j++)
+        {
+            if (ftell(inputFile) < 0)
+            {
+                // read untill end of file
+                printf("| WARNING! Reaching EOF prematurely");
+                break;
+            }
+            Util_Write_File(outputFile, pixelArray[i][j].red_pixel, location++);
+            Util_Write_File(outputFile, pixelArray[i][j].green_pixel, location++);
+            Util_Write_File(outputFile, pixelArray[i][j].blue_pixel, location++);
+        }
+        location = location + sysInfo.headerInfo.difference;
+    }
+    printf("|\n| Finished Reading File Pixel Information!\n|");
+    printf(HORIZONTAL_RULE);
+}
+
+/**
  * PLACE HOLDER FOR FUNCTION INFORMATION
  * 
  * @todo: aknuh add function infromation
@@ -161,15 +192,18 @@ bmpFileDriver_c::bmpFileDriver_c()
  */
 void BMP_Parse()
 {
-    static bmpFileDriver_c bmpFileDriver;
-    
-    bmpFileDriver.File_ParseHeaderInfo();
-    //bmpFileDriver.File_ValidateHeaderInfo();
-    bmpFileDriver.File_ParsePixelData();
-    bmpFileDriver.File_FilterPixelArray();
+    bmpFileDriver_c * bmpFileDriver = bmpDriverHandle::Handler_GetInstance();
+
+    bmpFileDriver->File_ParseHeaderInfo();
+    //bmpFileDriver->File_ValidateHeaderInfo();
+    bmpFileDriver->File_ParsePixelData();
+    bmpFileDriver->File_FilterPixelArray();
 }
 
 void BMP_Write()
 {
+    bmpFileDriver_c * bmpFileDriver = bmpDriverHandle::Handler_GetInstance();
+
+    bmpFileDriver->File_WritePixelData();
 
 }

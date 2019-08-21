@@ -87,6 +87,23 @@ uint32_t Util_Read_File(FILE* fp, uint32_t loc, uint32_t size)
 }
 
 /**
+ * Write the data into the file at the specified location
+ * 
+ * @param   fp      File pointer to write to
+ * @param   data    Data to write to file
+ * @param   loc     Location of which seek in the file always off of file start.
+ * 
+ * @note size has to be less than 4.
+ */
+void Util_Write_File(FILE *fp, uint8_t data, uint32_t loc)
+{
+    char byte = (char)data;
+    
+    fseek(fp, loc, 0 );
+    fwrite(&byte, 1, 1, fp);
+}
+
+/**
  * Applies a bandpass filter to input values. In essense this function 
  * truncates values to within the min, max range. 
  * 
@@ -96,7 +113,7 @@ uint32_t Util_Read_File(FILE* fp, uint32_t loc, uint32_t size)
  * 
  * @note size has to be less than 4.
  */
-uint32_t Util_BandPass_filter(uint32_t value, uint32_t min, uint32_t max)
+uint32_t Util_BandPass_Filter(uint32_t value, uint32_t min, uint32_t max)
 {
     if (value > max)
     {

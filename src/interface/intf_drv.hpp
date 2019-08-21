@@ -21,17 +21,15 @@
 **************************************************************************************************/
 
 #ifndef __INTF_DRV_H
-#define __INTF_DRV_H
+ #define __INTF_DRV_H
 
-#include "project.h"
-#include <fstream>
+ #include "project.h"
+ #include <fstream>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif //__cplusplus
+ #ifdef __cplusplus
 
-#include "mask.hpp"
+  #include "mask.hpp"
 /**
  * PLACE HOLDER FOR CLASS INFORMATION
  * 
@@ -50,10 +48,10 @@ class fileIntf_i
     virtual void File_ParseHeaderInfo()   = 0;
     virtual void File_ParsePixelData()    = 0;
     virtual void File_FilterPixelArray()  = 0;
+    virtual void File_WritePixelData()    = 0;
 
     pixel_t File_ApplyFilter(uint32_t imgW, uint32_t imgH);
     void File_InitializePixelArray();
-    //virtual void File_WritePixelData();
 
     protected:
     FILE *inputFile;
@@ -62,8 +60,36 @@ class fileIntf_i
 
 };
 
-#ifdef __cplusplus
-}
-#endif //__cplusplus
+// note not thread safe.
+template<typename T>
+class handler_c
+{
+public:
+    static T* Handler_GetInstance()
+    {
+        if (mHandle == NULL)
+        {
+            mHandle = new T; 
+        }
+        assert(mHandle != NULL);
+        return mHandle;
+    }
+
+    static void ST_DestoryInstance()
+    {
+        delete mHandle;
+    }
+protected:
+    handler_c();
+    ~handler_c();
+private:
+    handler_c(handler_c const&);
+    handler_c& operator=(handler_c const&);
+    static T* mHandle;
+};
+
+template <class T> T* handler_c<T>::mHandle=NULL;
+
+ #endif //__cplusplus
 
 #endif // __INTF_DRV_H

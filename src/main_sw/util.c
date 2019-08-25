@@ -125,6 +125,30 @@ uint32_t Util_BandPass_Filter(uint32_t value, uint32_t min, uint32_t max)
     }
     
     return value; 
-
 }
 
+/**
+ * Copies contents of input file to output file.
+ * 
+ * @param   inoutFile   input file to copy data from
+ * @param   outputFile     output file to copy data to
+ * 
+ * @nretrun error code -1 if unsuccessfuil
+ */
+uint8_t Util_Copy_File(FILE* inputFile, FILE* outputFile)
+{
+    char byte;
+    // NULL check file pointers
+    if ((inputFile == NULL) || (outputFile == NULL))
+    {
+        return -1;
+    }
+
+    fseek(inputFile, 0 , SEEK_SET);
+    while ((byte = fgetc(inputFile)) != EOF)
+    {
+       fputc(byte, outputFile);
+    }
+
+    return 1; 
+}

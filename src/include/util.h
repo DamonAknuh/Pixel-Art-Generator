@@ -82,6 +82,16 @@ void Util_Write_File(FILE *fp, uint8_t data, uint32_t loc);
  */
 uint32_t Util_BandPass_Filter(uint32_t value, uint32_t min, uint32_t max);
 
+/**
+ * Copies contents of input file to output file.
+ * 
+ * @param   inoutFile   input file to copy data from
+ * @param   outputFile     output file to copy data to
+ * 
+ * @nretrun error code -1 if unsuccessfuil
+ */
+uint8_t Util_Copy_File(FILE* inputFile, FILE* outputFile);
+
 #ifdef __cplusplus
 }
 #endif //__cplusplus

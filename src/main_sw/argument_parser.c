@@ -28,12 +28,16 @@
 
 /**
  * Check file extension to set file mode. 
+ * 
+ * @param fileName name of file to get ext from
+ * 
+ * @return extension mode
  */
-uint8_t CheckFileMode(char FileName[MAX_FILE_LENGTH])
+uint8_t CheckFileMode(char fileName[MAX_FILE_LENGTH])
 {
     printf("| Checking Input Extension\n");
     uint8_t mode;
-    char* ext = strrchr(FileName,'.');
+    char* ext = strrchr(fileName,'.');
 
     printf("|     `-> Extension found: %s\n", ext);
     if ( ext == NULL )
@@ -91,7 +95,7 @@ void VerifyFiles(char inFile[MAX_FILE_LENGTH], char outFile[MAX_FILE_LENGTH])
 
     // CHECK OUTPUT FILE
     printf("|\n| Output File %s \n", outFile);
-    fp = fopen(outFile, "r");
+    fp = fopen(outFile, "w"); // creates file aswell.
     if ( fp != NULL )
     {
         mode = CheckFileMode(outFile); 

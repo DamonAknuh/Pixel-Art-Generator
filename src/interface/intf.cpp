@@ -90,21 +90,21 @@ pixel_t fileIntf_i::File_ApplyFilter(uint32_t imgW, uint32_t imgH)
     double  factor = imgMask.factor;
     double  bias   = imgMask.bias;
  
-    double red;
-    double green;
-    double blue; 
+    double red   = 0.0;
+    double green = 0.0;
+    double blue  = 0.0; 
 
     // Apply image filter, by summing the multplication of pixelData against the applied filter values.
-    for (uint32_t filterY; filterY < sizeFilter; filterY++)
+    for (uint32_t filterY = 0; filterY < sizeFilter; filterY++)
     {
-        for (uint32_t filterX; filterX < sizeFilter ; filterX++)
+        for (uint32_t filterX = 0; filterX < sizeFilter ; filterX++)
         {
             int32_t tempImgX  = (imgW - (sizeFilter / 2) + filterX) % sysInfo.headerInfo.imgWidth;
             int32_t tempImgY  = (imgH - (sizeFilter / 2) + filterY) % sysInfo.headerInfo.imgHeight;
 
-            red   += pixelArray[tempImgX][tempImgY].red_pixel   * imgMask.filter[filterX][filterY];
-            green += pixelArray[tempImgX][tempImgY].green_pixel * imgMask.filter[filterX][filterY];
-            blue  += pixelArray[tempImgX][tempImgY].blue_pixel  * imgMask.filter[filterX][filterY];
+            red   += pixelArray[tempImgY][tempImgX].red_pixel   * imgMask.filter[filterX][filterY];
+            green += pixelArray[tempImgY][tempImgX].green_pixel * imgMask.filter[filterX][filterY];
+            blue  += pixelArray[tempImgY][tempImgX].blue_pixel  * imgMask.filter[filterX][filterY];
 
         }
     }

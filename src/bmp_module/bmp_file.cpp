@@ -132,16 +132,15 @@ void bmpFileDriver_c::File_FilterPixelArray()
 {
     printf(HORIZONTAL_RULE);
     printf("| Applying selected filter to Pixel data...\n|\n");
-
-    for (uint32_t imgW = 0; imgW < sysInfo.headerInfo.imgWidth; imgW++)
+    for (uint32_t imgH = 0; imgH < sysInfo.headerInfo.imgHeight; imgH++)
     {
-        for (uint32_t imgH = 0; imgH < sysInfo.headerInfo.imgWidth; imgH++)
+        for (uint32_t imgW = 0; imgW < sysInfo.headerInfo.imgWidth; imgW++)
         {
-            pixelArray[imgW][imgH] = File_ApplyFilter(imgW, imgH);
+            pixelArray[imgH][imgW] = File_ApplyFilter(imgW, imgH);
         }
     }
 
-    printf("|\n| Applying selected filter to Pixel data!\n|");
+    printf("|\n| Applied selected filter successfully Pixel data!\n|");
     printf(HORIZONTAL_RULE);
 }
 
@@ -150,7 +149,15 @@ void bmpFileDriver_c::File_FilterPixelArray()
  */
 void bmpFileDriver_c::File_WritePixelData()
 {
+    int8_t errorCode;
     uint32_t location = sysInfo.headerInfo.dataOffset;
+    outputFile = fopen(sysInfo.outputFileName, "wb");
+
+    errorCode = Util_Copy_File(inputFile, outputFile);
+    if ( errorCode < 0)
+    {
+        assert(0);
+    }
 
     printf(HORIZONTAL_RULE);
     printf("| Writing BMP File Pixel Information...\n|\n");
@@ -159,18 +166,20 @@ void bmpFileDriver_c::File_WritePixelData()
     {
         for (uint32_t j = 0; j < sysInfo.headerInfo.imgWidth; j++)
         {
-            if (ftell(inputFile) < 0)
+            if (ftell(outputFile) < 0)
             {
                 // read untill end of file
                 printf("| WARNING! Reaching EOF prematurely");
                 break;
             }
-            Util_Write_File(outputFile, pixelArray[i][j].red_pixel, location++);
+            Util_Write_File(outputFile, pixelArray[i][j].red_pixel,   location++);
             Util_Write_File(outputFile, pixelArray[i][j].green_pixel, location++);
-            Util_Write_File(outputFile, pixelArray[i][j].blue_pixel, location++);
+            Util_Write_File(outputFile, pixelArray[i][j].blue_pixel,  location++);
         }
         location = location + sysInfo.headerInfo.difference;
     }
+
+    fclose(outputFile);
     printf("|\n| Finished Reading File Pixel Information!\n|");
     printf(HORIZONTAL_RULE);
 }

@@ -47,8 +47,8 @@ extern "C" {
 #define PATH_SIZE 11
 
 #define PATH_TO_IMAGES "./images/"
-#define DEFAULT_INPUT_FILE "image_3.bmp"
-#define DEFAULT_OUTPUT_FILE "out_default_debug.csv"
+#define DEFAULT_INPUT_FILE "image_2.bmp"
+#define DEFAULT_OUTPUT_FILE "image_out.bmp"
 // #define DEFAULT_OUTPUT_FILE "out_default.bmp"
 
 #define BMP_FILE 0

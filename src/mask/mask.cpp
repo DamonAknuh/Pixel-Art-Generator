@@ -48,9 +48,9 @@ void mask_c::AllocateFilterArray(uint8_t size)
     }
 
     // Iterate over the pointer array and allocate memory for each pointer.
-    for (uint32_t i = 0; i < sysInfo.headerInfo.imgHeight; i++)
+    for (uint32_t i = 0; i < filterSize; i++)
     {
-        filter[i] = (double*)malloc(sysInfo.headerInfo.imgWidth * sizeof(double));
+        filter[i] = (double*)malloc(filterSize * sizeof(double));
         
         if (filter[i] == NULL)
         {

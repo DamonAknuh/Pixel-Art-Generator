@@ -102,9 +102,9 @@ pixel_t fileIntf_i::File_ApplyFilter(uint32_t imgW, uint32_t imgH)
             int32_t tempImgX  = (imgW - (sizeFilter / 2) + filterX) % sysInfo.headerInfo.imgWidth;
             int32_t tempImgY  = (imgH - (sizeFilter / 2) + filterY) % sysInfo.headerInfo.imgHeight;
 
-            red   += pixelArray[tempImgY][tempImgX].red_pixel   * imgMask.filter[filterX][filterY];
-            green += pixelArray[tempImgY][tempImgX].green_pixel * imgMask.filter[filterX][filterY];
-            blue  += pixelArray[tempImgY][tempImgX].blue_pixel  * imgMask.filter[filterX][filterY];
+            red   += (double) pixelArray[tempImgY][tempImgX].red_pixel   * imgMask.filter[filterX][filterY];
+            green += (double) pixelArray[tempImgY][tempImgX].green_pixel * imgMask.filter[filterX][filterY];
+            blue  += (double) pixelArray[tempImgY][tempImgX].blue_pixel  * imgMask.filter[filterX][filterY];
 
         }
     }

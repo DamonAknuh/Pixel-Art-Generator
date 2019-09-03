@@ -26,6 +26,7 @@
 
  #ifdef __cplusplus 
  #include "project.h"
+ #include <fstream>
 
 /*************************************************************************************************/
 /*                            IMAGE FILTER MODES                                                 */
@@ -55,6 +56,17 @@ class mask_c
     public:
     mask_c();
     mask_c(uint8_t size, imageFilters_e filter);
+
+    ~mask_c()
+    {
+        // Iterate over the pointer array and free memory for each pointer.
+        for (uint32_t i = 0; i < filterSize; i++)
+        {
+            free(filter[i]);
+        }
+        free(filter);
+    }
+
     uint8_t filterSize;
     imageFilters_e selectedFilter; 
     double** filter;

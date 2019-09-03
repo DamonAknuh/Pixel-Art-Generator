@@ -42,7 +42,16 @@ class fileIntf_i
     fileIntf_i();
     ~fileIntf_i()
     {
+        // Close input File 
         fclose(inputFile);
+        
+        // Iterate over the pointer array and free memory for each pointer allocated
+        for (uint32_t i = 0; i < sysInfo.headerInfo.imgHeight; i++)
+        {
+            free(pixelArray[i]);
+        }
+
+        free(pixelArray);
     }
     
     virtual void File_ParseHeaderInfo()   = 0;

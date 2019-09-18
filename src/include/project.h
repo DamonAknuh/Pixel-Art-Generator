@@ -42,17 +42,17 @@ extern "C" {
 /*                            GLOBAL DEFINTIONS                                                  */
 /*************************************************************************************************/
 
-#define HORIZONTAL_RULE "_______________________________________________\n"
-#define MAX_FILE_LENGTH 40
-#define PATH_SIZE 11
+#define HORIZONTAL_RULE         "_______________________________________________\n"
+#define MAX_FILE_LENGTH         40
+#define PATH_SIZE               11
 
-#define PATH_TO_IMAGES "./images/"
-#define DEFAULT_INPUT_FILE "image_2.bmp"
-#define DEFAULT_OUTPUT_FILE "image_out.bmp"
+#define PATH_TO_IMAGES          "./images/"
+#define DEFAULT_INPUT_FILE      "image_2.bmp"
+#define DEFAULT_OUTPUT_FILE     "out_default_debug.bmp"
 // #define DEFAULT_OUTPUT_FILE "out_default.bmp"
 
-#define BMP_FILE 0
-#define JPEG_FILE 1
+#define BMP_FILE                0
+#define JPEG_FILE               1
 
 /*************************************************************************************************/
 /*                            TYPEDEFS & STRUCTURES                                              */

@@ -46,7 +46,7 @@ fileIntf_i::fileIntf_i() :
  * 
  * @requires that the inputfile header data is parsed.
  */
-void fileIntf_i::File_InitializePixelArray()
+void fileIntf_i::File_AllocatePixelArray()
 {
     uint32_t len = sysInfo.headerInfo.imgHeight * sizeof(pixel_t*);
 
@@ -83,36 +83,39 @@ void fileIntf_i::File_InitializePixelArray()
  * @note: this algorithm was inspired by a similiar one found below:
  * https://lodev.org/cgtutor/filtering.html
  */
-pixel_t fileIntf_i::File_ApplyFilter(uint32_t imgW, uint32_t imgH)
+pixel_t fileIntf_i::File_ApplyFilter(int32_t imgW, int32_t imgH)
 {
     pixel_t result;
-    uint8_t sizeFilter = imgMask.filterSize;
-    double  factor = imgMask.factor;
-    double  bias   = imgMask.bias;
+    int32_t tempImgHeight = sysInfo.headerInfo.imgHeight;
+    int32_t tempImgWidth  = sysInfo.headerInfo.imgWidth;
+    int8_t  sizeFilter = imgMask.filterSize;
+    double  factor     = imgMask.factor;
+    double  bias       = imgMask.bias;
  
     double red   = 0.0;
     double green = 0.0;
     double blue  = 0.0; 
 
     // Apply image filter, by summing the multplication of pixelData against the applied filter values.
-    for (uint32_t filterY = 0; filterY < sizeFilter; filterY++)
+    for (int32_t filterY = 0; filterY < sizeFilter; filterY++)
     {
-        for (uint32_t filterX = 0; filterX < sizeFilter ; filterX++)
-        {
-            int32_t tempImgX  = (imgW - (sizeFilter / 2) + filterX) % sysInfo.headerInfo.imgWidth;
-            int32_t tempImgY  = (imgH - (sizeFilter / 2) + filterY) % sysInfo.headerInfo.imgHeight;
+        for (int32_t filterX = 0; filterX < sizeFilter ; filterX++)
+        {   
+            // It is true the added "tempImgWidth" term 'could' be simplied out, but it is needed
+            // to prevent any negative values from occuring. 
+            int32_t tempImgX  = ((imgW - (sizeFilter / 2) + filterX) + tempImgWidth)  % tempImgWidth;
+            int32_t tempImgY  = ((imgH - (sizeFilter / 2) + filterY) + tempImgHeight) % tempImgHeight;
 
-            red   += (double) pixelArray[tempImgY][tempImgX].red_pixel   * imgMask.filter[filterX][filterY];
-            green += (double) pixelArray[tempImgY][tempImgX].green_pixel * imgMask.filter[filterX][filterY];
-            blue  += (double) pixelArray[tempImgY][tempImgX].blue_pixel  * imgMask.filter[filterX][filterY];
-
+            red   += ((double) pixelArray[tempImgY][tempImgX].red_pixel)   * imgMask.filter[filterX][filterY];
+            green += ((double) pixelArray[tempImgY][tempImgX].green_pixel) * imgMask.filter[filterX][filterY];
+            blue  += ((double) pixelArray[tempImgY][tempImgX].blue_pixel)  * imgMask.filter[filterX][filterY];
         }
     }
 
     // Values need to be limited to accepted pixel range. 
     result.red_pixel   = Util_BandPass_Filter((red   * factor) + bias, 0, 255);
     result.green_pixel = Util_BandPass_Filter((green * factor) + bias, 0, 255);
-    result.green_pixel = Util_BandPass_Filter((blue  * factor) + bias, 0, 255);
+    result.blue_pixel  = Util_BandPass_Filter((blue  * factor) + bias, 0, 255);
 
     return result;
 

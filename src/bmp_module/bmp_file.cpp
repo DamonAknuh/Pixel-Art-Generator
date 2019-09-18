@@ -23,7 +23,7 @@
 #include "project.h"
 #include "bmp_defines.h"
 #include "util.h"           // for file reading functions
-#include "intf.h"           // for File_InitializePixelArray
+#include "intf.h"           // for File_AllocatePixelArray
 
 #include <cstdio>
 #include <fstream>
@@ -98,7 +98,7 @@ void bmpFileDriver_c::File_ParsePixelData()
 {
     uint32_t location = sysInfo.headerInfo.dataOffset;
 
-    File_InitializePixelArray();
+    File_AllocatePixelArray();
 
     printf(HORIZONTAL_RULE);
     printf("| Reading BMP File Pixel Information...\n|\n");
@@ -180,7 +180,7 @@ void bmpFileDriver_c::File_WritePixelData()
     }
 
     fclose(outputFile);
-    printf("|\n| Finished Reading File Pixel Information!\n|");
+    printf("|\n| Finished Writing File Pixel Information!\n|");
     printf(HORIZONTAL_RULE);
 }
 

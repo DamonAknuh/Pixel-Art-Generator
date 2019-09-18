@@ -59,14 +59,13 @@ class fileIntf_i
     virtual void File_FilterPixelArray()  = 0;
     virtual void File_WritePixelData()    = 0;
 
-    pixel_t File_ApplyFilter(uint32_t imgW, uint32_t imgH);
-    void File_InitializePixelArray();
+    pixel_t File_ApplyFilter(int32_t imgW, int32_t imgH);
+    void    File_AllocatePixelArray();
 
     protected:
     FILE *inputFile;
     FILE *outputFile;
     mask_c imgMask; 
-
 };
 
 // note not thread safe.

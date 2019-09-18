@@ -53,7 +53,7 @@ typedef enum
  */
 class mask_c
 {
-    public:
+public:
     mask_c();
     mask_c(uint8_t size, imageFilters_e filter);
 
@@ -67,19 +67,19 @@ class mask_c
         free(filter);
     }
 
-    uint8_t filterSize;
-    imageFilters_e selectedFilter; 
-    double** filter;
-    uint8_t factor;
-    double bias;
-
-    private: 
-    void PixelArtFilterInit();
-    void BlurFilterInit();
-    void EdgeFilterInit();
-    void SharpenInit();
-    void AllocateFilterArray(uint8_t size);
-    void InitializeFilter(imageFilters_e filter);
+    uint8_t         filterSize;
+    imageFilters_e  selectedFilter; 
+    double**        filter;
+    double          bias;
+    uint8_t         factor;
+    
+private: 
+    void    PixelArtFilterInit();
+    void    BlurFilterInit();
+    void    EdgeFilterInit();
+    void    SharpenInit();
+    void    AllocateFilterArray(uint8_t size);
+    void    InitializeFilter(imageFilters_e filter);
 
 };
 

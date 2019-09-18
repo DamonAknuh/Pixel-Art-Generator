@@ -59,7 +59,7 @@ int main(int argc, char const *argv[])
     status = Intf_Write();
     assert(status > 0);    
 
-    // MAIN SOFTWARE ENTRY
+    // MAIN SOFTWARE EXIT
 
     return 1;
 }

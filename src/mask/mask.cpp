@@ -60,6 +60,7 @@ void mask_c::AllocateFilterArray(uint8_t size)
     }
 }
 
+// @todo: 
 void mask_c::PixelArtFilterInit()
 {
         
@@ -67,12 +68,21 @@ void mask_c::PixelArtFilterInit()
     {
         for (uint32_t j = 0; j < filterSize; j++)
         {
-            filter[i][j] = 1;
-            
+            if (( i == (filterSize / 2)) && (j == (filterSize / 2))) // when dead center have 1 pixel value.
+            {
+                filter[i][j] = 1;
+            }
+            else
+            {
+                filter[i][j] = 0; 
+            }
         }
     }
+    factor = 1;
+    bias   = 0;
 }
 
+// @todo: 
 void mask_c::BlurFilterInit()
 {
     for ( uint32_t i = 0; i < filterSize; i++)
@@ -94,6 +104,7 @@ void mask_c::BlurFilterInit()
 
 }
 
+// @todo: 
 void mask_c::EdgeFilterInit()
 {
     for ( uint32_t i = 0; i < filterSize; i++)
@@ -114,13 +125,14 @@ void mask_c::EdgeFilterInit()
     bias = 0.0;
 }
 
+// @todo: 
 void mask_c::SharpenInit()
 {
     for ( uint32_t i = 0; i < filterSize; i++)
     {
         for (uint32_t j = 0; j < filterSize; j++)
         {
-            if ( i == j)
+            if (( i == (filterSize / 2)) && (j == (filterSize / 2)))
             {
                 filter[i][j] = (filterSize * filterSize);
             }
@@ -134,6 +146,7 @@ void mask_c::SharpenInit()
     bias = 0.0;
 }
 
+// @todo: 
 void mask_c::InitializeFilter(imageFilters_e filter)
 {
     switch(filter)
@@ -166,11 +179,11 @@ void mask_c::InitializeFilter(imageFilters_e filter)
  */
 mask_c::mask_c() :
     filterSize(5),
-    selectedFilter(FILT_PixelArt)
+    selectedFilter(FILT_Sharpen)
 {
     AllocateFilterArray(5);
     
-    InitializeFilter(FILT_PixelArt);
+    InitializeFilter(FILT_Sharpen);
 
 }
 

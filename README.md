@@ -1,4 +1,4 @@
-# Pixel-Art-Generator
+# Image Filter Engine.
 Pixel Art Generator
 call the generated 
 
